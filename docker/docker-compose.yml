@@ -1,0 +1,61 @@
+version: '2'
+services:
+  mysql:
+    image: mysql
+    container_name: nuta_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=nuta
+      - MYSQL_PASSWORD=nuta123
+      - MYSQL_USER=nuta
+    ports:
+      - "3306:3306"
+  redis:
+    image: redis
+    container_name: nuta_redis
+    ports:
+     - 6379:6379
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf
+  php:
+    image: karbon001/docker-laravel-php
+    container_name: nuta_php7
+    build: ./build/supervisor
+    environment:
+      DB_HOST_READ: mysql
+      DB_HOST_WRITE: mysql
+      DB_DATABASE: nuta
+      DB_USERNAME: nuta
+      DB_PASSWORD: nuta123
+    links:
+     - mysql:mysql
+     - redis:redis
+    volumes:
+      - ../:/home/www/
+      - ./supervisor/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
+  nginx:
+    image: nginx
+    container_name: nuta_nginx
+    links:
+     - php:fpm
+     - node:node
+    ports:
+     - 80:80
+     - 443:443
+    volumes:
+      - ../:/home/www/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites-enabled/:/etc/nginx/sites-enabled/
+      - ./certs/:/etc/nginx/ssl/
+  node:
+    image: node
+    container_name: nuta_node
+    links:
+     - redis:redis
+    ports:
+     - 3000:3000
+    tty: true
+    volumes:
+      - ../:/home/www/
+      - ./certs/:/etc/node/ssl/
+    command: bash -c "npm install -g laravel-echo-server && cd /home/www && laravel-echo-server start"

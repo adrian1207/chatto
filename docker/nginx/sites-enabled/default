@@ -1,0 +1,58 @@
+server {
+    listen 80 default_server;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen       443 ssl;
+    server_name  localhost;
+
+    ssl_certificate    /etc/nginx/ssl/cert.crt;
+    ssl_certificate_key    /etc/nginx/ssl/cert.key;
+
+    charset utf-8;
+
+    root   /home/www/public;
+    index  index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location /image_cache {
+        internal;
+        alias /home/www/storage/glide/cache;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt { access_log off; log_not_found off; }
+
+    #access_log off;
+    access_log /home/www/storage/logs/nginx.log;
+    error_log  /home/www/storage/logs/nginx-error.log error;
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_pass fpm:9000;
+        fastcgi_index index.php;
+
+        #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+        #https://github.com/zendtech/ZendOptimizerPlus/issues/126
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        include fastcgi_params;
+        fastcgi_intercept_errors off;
+        fastcgi_buffer_size 32k;
+        fastcgi_buffers 16 16k;
+    }
+
+    location ~ (/\.|web\.config) {
+        deny all;
+
+        access_log off;
+        log_not_found off;
+    }
+}
