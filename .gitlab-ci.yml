@@ -1,0 +1,104 @@
+image: karbon001/gitlab-ci-laravel-php:7.0
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - composer install --prefer-dist --no-interaction
+
+services:
+  - mysql:latest
+
+variables:
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_USER: edito
+  MYSQL_PASSWORD: edito
+  MYSQL_DATABASE: edito_test
+  
+  APP_ENV: production
+  APP_KEY: wZ7DnVNExEsgisdM9nEEuNDW2GkL85Fc
+  
+  DB_HOST_READ: mysql
+  DB_HOST_WRITE: mysql
+  DB_DATABASE: edito_test
+  DB_USERNAME: root
+  DB_PASSWORD: root
+
+stages:
+  - test
+  - deploy
+
+test_job:
+  stage: test
+  script:
+    - vendor/bin/phpcs --standard=phpcs.xml app/ database/
+    - vendor/bin/phpunit --colors --debug
+
+deploy_job:
+  stage: deploy
+  only:
+    - master
+    - develop
+    - /^release.*$/
+  script:
+    - chmod +x bin/gitlab/prepare.sh
+    - . bin/gitlab/prepare.sh
+
+    # ========== Create package containing project files ==========
+    - tar czpf bin/package.tar.gz app bootstrap config database public resources vendor .env.example artisan composer.* package.* server.php --exclude 'resources/*/assets'
+
+    # ========== SSH - Prepare agent ==========
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerinit ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    
+    # ========== SSH - Prepare shared folders ==========
+    - ssh -T $SSH_HOSTNAME <<EOM
+    - '[ -f /usr/local/bin/create_directories ] && /usr/local/bin/create_directories $REPO'
+    - mkdir -p $SRV_PATH
+    - mkdir -p $SRV_ROOT/shared/storage/app
+    - mkdir -p $SRV_ROOT/shared/storage/framework/cache
+    - mkdir -p $SRV_ROOT/shared/storage/framework/sessions
+    - mkdir -p $SRV_ROOT/shared/storage/framework/views
+    - mkdir -p $SRV_ROOT/shared/storage/glide
+    - mkdir -p $SRV_ROOT/shared/storage/logs
+    - exit
+    - EOM
+    
+    # ========== SFTP - Send package to server ==========
+    - sftp $SSH_HOSTNAME <<EOM
+    - put bin/package.tar.gz $SRV_PATH
+    - exit
+    - EOM
+    
+    # ========== SSH ==========
+    - ssh -T $SSH_HOSTNAME <<EOM
+    # Extract files
+    - tar -C $SRV_PATH -zxf $SRV_PATH/package.tar.gz
+    - rm $SRV_PATH/package.tar.gz
+    - '[ ! -f $SRV_ROOT/shared/.env ] && cp -n $SRV_PATH/.env.example $SRV_ROOT/shared/.env && sed -i -e "s/homestead/$DBNAME/g" $SRV_ROOT/shared/.env && php artisan key:generate'
+    # Link shared folders and files
+    - ln -sf $SRV_ROOT/shared/storage $SRV_PATH
+    - ln -sf $SRV_ROOT/shared/.env $SRV_PATH
+    # Switch live version
+    - rm -f $SRV_CURRENT
+    - ln -s $SRV_PATH $SRV_CURRENT
+    # Execute migrations
+    - cd $SRV_CURRENT
+    - php artisan down
+    - php artisan edito:seed
+    - php artisan migrate --force
+    - php artisan view:clear
+    - php artisan up
+    # Cleanup old releases
+    - cd $SRV_RELEASES
+    - ls -1 --sort=time | tail -n +6 | xargs rm -rf -
+    - crontab -l | grep -q "$SRV_CURRENT" ; if [ $? = 1 ] ; then (crontab -l 2> /dev/null ; echo "* * * * * php $SRV_CURRENT/artisan schedule:run >> /dev/null 2>&1") | crontab - ; fi
+    - exit
+    - EOM
+  
+    # ========== Remove package containing project files ==========
+    - rm bin/package.tar.gz
+  when: on_success
