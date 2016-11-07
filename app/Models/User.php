@@ -1,13 +1,23 @@
 <?php
 
-namespace nuta;
+namespace nuta\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * nuta\Models\User
+ *
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $unreadNotifications
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const MALE = 0;
+    const FEMALE = 1;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nick', 'password',
     ];
 
     /**

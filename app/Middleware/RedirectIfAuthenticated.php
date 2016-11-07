@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Http\Middleware;
+namespace nuta\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

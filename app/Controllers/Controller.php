@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Http\Controllers;
+namespace nuta\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

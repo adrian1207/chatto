@@ -1,10 +1,10 @@
 <?php
 
-namespace nuta\Http\Controllers\Auth;
+namespace nuta\Controllers;
 
-use nuta\User;
+use nuta\Models\User;
 use Validator;
-use nuta\Http\Controllers\Controller;
+use nuta\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -48,9 +48,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'nick' => 'required|max:24',
+            'password' => 'required|min:4',
         ]);
     }
 
@@ -63,8 +62,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'nick' => $data['nick'],
             'password' => bcrypt($data['password']),
         ]);
     }

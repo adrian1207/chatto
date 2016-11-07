@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Http\Middleware;
+namespace nuta\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 

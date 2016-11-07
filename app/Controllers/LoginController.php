@@ -1,8 +1,8 @@
 <?php
 
-namespace nuta\Http\Controllers\Auth;
+namespace nuta\Controllers;
 
-use nuta\Http\Controllers\Controller;
+use nuta\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller

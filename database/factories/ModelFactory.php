@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(nuta\User::class, function (Faker\Generator $faker) {
+$factory->define(nuta\Models\User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [

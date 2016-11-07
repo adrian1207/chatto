@@ -1,89 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-		
-        <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+        <link href="/css/app.css" rel="stylesheet">
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+        <!-- Scripts -->
+        <script>
+            window.Laravel = <?php echo json_encode([
+                    'csrfToken' => csrf_token(),
+            ]); ?>
+        </script>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    <a href="{{ url('/login') }}">Login</a>
-                    <a href="{{ url('/register') }}">Register</a>
-                </div>
-            @endif
-
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Podaj nick i dołącz!</div>
+                                <div class="panel-body">
+                                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                                        {{ csrf_field() }}
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                                        <div class="form-group{{ $errors->has('nick') ? ' has-error' : '' }}">
+                                            <label for="nick" class="col-md-4 control-label">Nick</label>
+
+                                            <div class="col-md-6">
+                                                <input id="nick" type="nick" class="form-control" name="nick" value="{{ old('nick') }}" required autofocus>
+
+                                                @if ($errors->has('nick'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('nick') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                                            <div class="col-md-6 col-md-offset-4">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="gender" id="gender_male" value="male"> Mężczyzna
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="gender" id="gender_female" value="female"> Kobieta
+                                                </label>
+
+                                                @if ($errors->has('gender'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('gender') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group{{ $errors->has('reserved') ? ' has-error' : '' }}">
+                                            <div class="col-md-6 col-md-offset-4">
+                                                <label class="checkbox-inline">
+                                                    <input type="checkbox" name="reserved" id="reserved" value="1"> Mam już zarezerwowany nick
+                                                </label>
+
+                                                @if ($errors->has('reserved'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('reserved') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                            <label for="password" class="col-md-4 control-label">Hasło</label>
+
+                                            <div class="col-md-6">
+                                                <input id="password" type="password" class="form-control" name="password">
+
+                                                @if ($errors->has('password'))
+                                                    <span class="help-block">
+                                                        <strong>{{ $errors->first('password') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-8 col-md-offset-4">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Wejdź
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

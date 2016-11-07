@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Http\Controllers;
+namespace nuta\Controllers;
 
 use Illuminate\Http\Request;
 

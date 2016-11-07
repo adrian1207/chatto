@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Http\Middleware;
+namespace nuta\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 

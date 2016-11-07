@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => nuta\User::class,
+            'model' => nuta\Models\User::class,
         ],
 
         // 'users' => [
