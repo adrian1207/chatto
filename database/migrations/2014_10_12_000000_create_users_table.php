@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('nick')->unique();
             $table->boolean('gender');
             $table->boolean('reserved');
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });

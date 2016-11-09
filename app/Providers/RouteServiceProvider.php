@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'nuta\Http\Controllers';
+    protected $namespace = 'nuta\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.

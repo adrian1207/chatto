@@ -11,10 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'LoginController@index');
+Route::post('login', 'LoginController@switcher');
+Route::post('logout', 'LoginController@logout');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+Route::get('/chat', 'ChatController@index');

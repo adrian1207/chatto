@@ -29,6 +29,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">Podaj nick i dołącz!</div>
                                 <div class="panel-body">
+
+                                    @if ($errors->has('global'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('global') }}</strong>
+                                        </span>
+                                    @endif
+
                                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                                         {{ csrf_field() }}
 
@@ -49,10 +56,10 @@
                                         <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
                                             <div class="col-md-6 col-md-offset-4">
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="gender" id="gender_male" value="male"> Mężczyzna
+                                                    <input type="radio" name="gender" id="gender_male" value="male" {{ (old('gender') == "male")? 'checked':'' }}> Mężczyzna
                                                 </label>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="gender" id="gender_female" value="female"> Kobieta
+                                                    <input type="radio" name="gender" id="gender_female" value="female" {{ (old('gender') == "female")? 'checked':'' }}> Kobieta
                                                 </label>
 
                                                 @if ($errors->has('gender'))
@@ -66,14 +73,8 @@
                                         <div class="form-group{{ $errors->has('reserved') ? ' has-error' : '' }}">
                                             <div class="col-md-6 col-md-offset-4">
                                                 <label class="checkbox-inline">
-                                                    <input type="checkbox" name="reserved" id="reserved" value="1"> Mam już zarezerwowany nick
+                                                    <input type="checkbox" name="reserved" id="reserved" value="1" {{ (old('reserved') == "1")? 'checked':'' }}> Mam już zarezerwowany nick
                                                 </label>
-
-                                                @if ($errors->has('reserved'))
-                                                    <span class="help-block">
-                                                        <strong>{{ $errors->first('reserved') }}</strong>
-                                                    </span>
-                                                @endif
                                             </div>
                                         </div>
 

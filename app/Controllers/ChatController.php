@@ -4,7 +4,7 @@ namespace nuta\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ChatController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,6 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('chat');
     }
 }
