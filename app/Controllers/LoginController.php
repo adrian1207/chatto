@@ -3,8 +3,10 @@
 namespace nuta\Controllers;
 
 use Illuminate\Http\Request;
+use nuta\Events\UserLoggedEvent;
 use Validator;
 use nuta\Models\User;
+use nuta\Models\Session;
 
 class LoginController extends Controller
 {
@@ -94,19 +96,18 @@ class LoginController extends Controller
      */
     public function register(Request $request)
     {
-        $password = str_random(32);
+        $request->request->add(['password' => str_random(32)]);
 
         User::create([
             'nick' => $request->get('nick'),
             'gender' => ($request->get('gender') == 'male') ? User::MALE : User::FEMALE,
             'reserved' => false,
-            'password' => bcrypt($password)
+            'password' => bcrypt($request->get('password'))
         ]);
 
-        if (\Auth::guard()->attempt(['nick' => $request->get('nick'), 'password' => $password], true))
+        if (\Auth::attempt($request->only('nick', 'password'), true))
         {
-            $request->session()->regenerate();
-            return redirect()->intended($this->redirectTo);
+            return $this->logged($request);
         }
 
         return redirect()->back()->withErrors(['global' => 'Chwilowy problem z wejściem, prosimy spróbować za chwilę.']);
@@ -120,15 +121,27 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $credentials = $request->only('nick', 'password');
-
-        if (\Auth::attempt($credentials, true))
+        if (\Auth::attempt($request->only('nick', 'password'), true))
         {
-            $request->session()->regenerate();
-            return redirect()->intended($this->redirectTo);
+            return $this->logged($request);
         }
 
         return redirect()->back()->withErrors(['global' => \Lang::get('auth.failed')]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logged(Request $request)
+    {
+        $request->session()->regenerate();
+
+        Session::setOnline();
+
+        //broadcast(new UserLoggedEvent(\Auth::getUser()))->toOthers();
+
+        return redirect()->intended($this->redirectTo);
     }
 
     /**

@@ -19,7 +19,16 @@ const app = new Vue({
     el: '#app'
 });
 
-Echo.channel('kanalTest')
-    .listen('TestEvent', (e) => {
-        console.log(e.test);
-});
+Echo.join('presence_channel')
+    .here((users) => {
+        console.log("Wszedłem");
+        console.log(users);
+    })
+    .joining((user) => {
+        console.log("Ktoś wszedł");
+        console.log(user);
+    })
+    .leaving((user) => {
+        console.log("Ktoś wyszedł");
+        console.log(user);
+    });

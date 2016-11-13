@@ -1,6 +1,6 @@
 {
 	"appKey": "id5ddfhkab7ef84m0pn8h35ng98qba9ea1di462rd4t0rbln6gnjpfel9s8g",
-	"authHost": "https://localhost",
+	"authHost": "https://nginx",
 	"authEndpoint": "/broadcasting/auth",
 	"database": "redis",
 	"databaseConfig": {
@@ -12,8 +12,8 @@
 			"databasePath": "/database/laravel-echo-server.sqlite"
 		}
 	},
-	"devMode": false,
-	"host": "",
+	"devMode": true,
+	"host": "0.0.0.0",
 	"port": "3000",
 	"referrers": [],
 	"socketio": {},
