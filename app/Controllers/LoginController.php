@@ -3,10 +3,8 @@
 namespace nuta\Controllers;
 
 use Illuminate\Http\Request;
-use nuta\Events\UserLoggedEvent;
 use Validator;
 use nuta\Models\User;
-use nuta\Models\Session;
 
 class LoginController extends Controller
 {
@@ -137,8 +135,6 @@ class LoginController extends Controller
     {
         $request->session()->regenerate();
 
-        Session::setOnline();
-
         //broadcast(new UserLoggedEvent(\Auth::getUser()))->toOthers();
 
         return redirect()->intended($this->redirectTo);
@@ -155,7 +151,6 @@ class LoginController extends Controller
         \Auth::logout();
 
         $request->session()->flush();
-
         $request->session()->regenerate();
 
         return redirect('/');

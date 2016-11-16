@@ -20,6 +20,7 @@
         ]); ?>
     </script>
     <script src="https://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="/js/app.js"></script>
 </head>
 <body>
     <div id="app">
@@ -81,8 +82,6 @@
 
         @yield('content')
     </div>
-
-    <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="/js/chat.js"></script>
 </body>
 </html>
