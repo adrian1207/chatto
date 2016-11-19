@@ -6,9 +6,8 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use nuta\Models\User;
 
-class UserLoggedEvent implements ShouldBroadcast
+class InvitationEvent implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -18,17 +17,24 @@ class UserLoggedEvent implements ShouldBroadcast
     public $broadcastQueue = 'node';
 
     /**
-     * @var User
+     * @var
      */
-    public $user;
+    public $sender;
 
     /**
-     * UserLoggedEvent constructor.
-     * @param User $user
+     * @var
      */
-    public function __construct(User $user)
+    public $recipient;
+
+    /**
+     * InvitationEvent constructor.
+     * @param $sender
+     * @param $recipient
+     */
+    public function __construct($sender, $recipient)
     {
-        $this->user = $user;
+        $this->sender = $sender;
+        $this->recipient = $recipient;
     }
 
     /**
@@ -36,7 +42,7 @@ class UserLoggedEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('global');
+        return new PresenceChannel('presence');
     }
 
     /**
@@ -44,6 +50,6 @@ class UserLoggedEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ['user' => $this->user];
+        return ['sender' => $this->sender, 'recipient' => $this->recipient];
     }
 }

@@ -1,19 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="chat">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2 col-md-offset-1">
-                <div class="panel panel-default" v-for="user in users">
-                    <div class="panel-heading">@{{ user.nick }}</div>
 
-                    <div class="panel-body">
-                        @{{ user.id }}
-                    </div>
-                </div>
+<div id="chat">
+    <div class="container-fluid">
+        <div class="row">
+            <div v-for="user in users" v-on:dblclick="invite({{ Auth::user()->id }}, user.id)" v-if="user.id != {{ Auth::user()->id }}">
+                <user :user="user"></user>
             </div>
         </div>
+    </div>
+    <div v-for="talk in talks">
+        <talk :channel="talk"></talk>
     </div>
 </div>
 @endsection

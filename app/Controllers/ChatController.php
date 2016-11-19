@@ -3,6 +3,7 @@
 namespace nuta\Controllers;
 
 use Illuminate\Http\Request;
+use nuta\Events\InvitationEvent;
 
 class ChatController extends Controller
 {
@@ -24,5 +25,13 @@ class ChatController extends Controller
     public function index()
     {
         return view('chat');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function invite(Request $request)
+    {
+        broadcast((new InvitationEvent($request->get('sender'), $request->get('recipient'))));
     }
 }

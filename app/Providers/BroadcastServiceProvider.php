@@ -16,12 +16,17 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         Broadcast::routes();
 
-        Broadcast::channel('presence_channel', function ($user)
+        Broadcast::channel('presence', function ($user)
         {
             if (\Auth::check())
             {
                 return ['id' => $user->id, 'nick' => $user->nick];
             }
+        });
+
+        Broadcast::channel('*-*', function ($user, $sender, $recipient)
+        {
+            return ($user->id == $sender || $user->id == $recipient);
         });
     }
 }
