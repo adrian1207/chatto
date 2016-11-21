@@ -9,7 +9,8 @@ new Vue({
         talks: []
     },
     methods: {
-        connect: function() {
+        connect: function()
+        {
             Echo.join('presence')
                 .here((users) => {
                     this.users = users;
@@ -25,20 +26,23 @@ new Vue({
                     this.start_private(participants)
                 });
         },
-        invite: function(sender, recipient) {
+        invite: function(sender, recipient)
+        {
+            var channel = sender+'-'+recipient;
+
+            this.talks.push(channel);
+            Echo.private(channel);
+
             $.post('/chat/invite', {sender: sender, recipient: recipient});
         },
-        start_private: function(participants) {
+        start_private: function(participants)
+        {
             var channel = participants.sender+'-'+participants.recipient;
 
-            if (participants.sender == this.user_id || participants.recipient == this.user_id)
+            if (participants.recipient == this.user_id)
             {
                 this.talks.push(channel);
-
-                Echo.private(channel)
-                    .listen('MessageEvent', (data) => {
-                        console.log(data);
-                    });
+                Echo.private(channel);
             }
         }
     },

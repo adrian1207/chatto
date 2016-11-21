@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/all.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -22,6 +23,7 @@
     </script>
     <script src="https://localhost:3000/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/all.js"></script>
 </head>
 <body>
     <div id="app">
