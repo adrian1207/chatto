@@ -11,7 +11,7 @@
         </div>
     </div>
     <div v-for="(talk, channel) in talks">
-        <talk :channel="channel" :messages="talk.messages"></talk>
+        <talk :channel="channel" :messages="talk.messages" :members="talk.members"></talk>
     </div>
 </div>
 @endsection

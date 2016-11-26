@@ -1,9 +1,9 @@
 <template>
-    <div :id="channel" :title="channel">
+    <div :id="channel" :title="members.guest.nick">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12" style="height: 390px; overflow-y: scroll;">
-                    <p v-for="message in messages">{{ message.message }}</p>
+                    <p v-for="message in messages">{{ message.type }}: {{ message.content }}</p>
                 </div>
             </div>
             <div class="row">
@@ -24,7 +24,7 @@
 
 <script>
     export default {
-        props: ['channel', 'messages'],
+        props: ['channel', 'messages', 'members'],
         data: function() {
             return {message: ''}
         },
@@ -33,6 +33,7 @@
             {
                 var message = this.message;
                 this.$http.post('/chat/message', {channel: this.channel, message: message});
+                this.$parent.talks[this.channel].messages.push({content: message, type: 'sent'});
                 this.message = '';
             }
         },

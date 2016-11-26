@@ -26,29 +26,39 @@ new Vue({
                     this.privateInit(participants)
                 });
         },
+        connectPrivate: function(channel)
+        {
+            Echo.join(channel)
+                .joining((user) => {
+                    this.talks[channel].messages.push({content: 'Dołączył: '+user.nick, type: 'info'});
+                })
+                .leaving((user) => {
+                    this.talks[channel].messages.push({content: 'Opuścił: '+user.nick, type: 'info'});
+                })
+                .listen('MessageEvent', (message) => {
+                    this.talks[channel].messages.push({content: message.message, type: 'received'});
+                });
+        },
+        joinPrivate: function(sender, recipient)
+        {
+            var channel = setChannelName(sender, recipient);
+            var members = setMembers(this.users, this.user_id, sender, recipient);
+
+            if ((sender == this.user_id || recipient == this.user_id) && !this.talks[channel])
+            {
+                this.$set(this.talks, channel, {messages: [], members: members});
+
+                this.connectPrivate(channel)
+            }
+        },
         invite: function(sender, recipient)
         {
+            this.joinPrivate(sender, recipient);
             this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
         },
         privateInit: function(participants)
         {
-            var channel = 'priv-'+participants.sender+'-'+participants.recipient;
-
-            if ((participants.sender == this.user_id || participants.recipient == this.user_id) && !this.talks[channel])
-            {
-                this.$set(this.talks, channel, {messages: []});
-
-                Echo.join(channel)
-                    .joining((user) => {
-                        console.log(user);
-                    })
-                    .leaving((user) => {
-                        console.log(user);
-                    })
-                    .listen('MessageEvent', (message) => {
-                        this.talks[channel].messages.push(message);
-                    });
-            }
+            this.joinPrivate(participants.sender, participants.recipient);
         },
         privateExit: function(channel)
         {
@@ -69,3 +79,37 @@ new Vue({
         this.connect();
     }
 });
+
+/**
+ * Jednolita nazwa kanału
+ *
+ * @param sender
+ * @param recipient
+ */
+function setChannelName(sender, recipient)
+{
+    if (sender > recipient)
+        return 'priv-'+sender+'-'+recipient;
+    if (sender < recipient)
+        return 'priv-'+recipient+'-'+sender;
+};
+
+/**
+ * Obiekt członków czatu
+ *
+ * @param users
+ * @param me
+ * @param sender
+ * @param recipient
+ * @returns {{me: *, guest: *}}
+ */
+function setMembers(users, me, sender, recipient)
+{
+    var senderIndex = users.map(function(usr) { return usr.id; }).indexOf(sender);
+    var recipientIndex = users.map(function(usr) { return usr.id; }).indexOf(recipient);
+
+    if (me == sender)
+        return {'me': users[senderIndex], 'guest': users[recipientIndex]};
+    if (me == recipient)
+        return {'me': users[recipientIndex], 'guest': users[senderIndex]};
+};
