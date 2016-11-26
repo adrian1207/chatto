@@ -24,9 +24,12 @@ class BroadcastServiceProvider extends ServiceProvider
             }
         });
 
-        Broadcast::channel('*-*', function ($user, $sender, $recipient)
+        Broadcast::channel('priv-*-*', function ($user, $sender, $recipient)
         {
-            return ($user->id == $sender || $user->id == $recipient);
+            if ($user->id == $sender || $user->id == $recipient)
+            {
+                return ['id' => $user->id, 'nick' => $user->nick];
+            }
         });
     }
 }

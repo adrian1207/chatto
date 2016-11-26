@@ -6,3 +6,4 @@ Route::post('logout', 'LoginController@logout');
 
 Route::get('/chat', 'ChatController@index');
 Route::post('/chat/invite', 'ChatController@invite');
+Route::post('/chat/message', 'ChatController@message');

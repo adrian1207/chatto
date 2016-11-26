@@ -10,8 +10,8 @@
             </div>
         </div>
     </div>
-    <div v-for="talk in talks">
-        <talk :channel="talk"></talk>
+    <div v-for="(talk, channel) in talks">
+        <talk :channel="channel" :messages="talk.messages"></talk>
     </div>
 </div>
 @endsection

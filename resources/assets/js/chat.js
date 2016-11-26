@@ -6,7 +6,7 @@ new Vue({
     data: {
         user_id: null,
         users: [],
-        talks: []
+        talks: {}
     },
     methods: {
         connect: function()
@@ -23,27 +23,37 @@ new Vue({
                     this.users.splice(index, 1);
                 })
                 .listen('InvitationEvent', (participants) => {
-                    this.start_private(participants)
+                    this.privateInit(participants)
                 });
         },
         invite: function(sender, recipient)
         {
-            var channel = sender+'-'+recipient;
-
-            this.talks.push(channel);
-            Echo.private(channel);
-
-            $.post('/chat/invite', {sender: sender, recipient: recipient});
+            this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
         },
-        start_private: function(participants)
+        privateInit: function(participants)
         {
-            var channel = participants.sender+'-'+participants.recipient;
+            var channel = 'priv-'+participants.sender+'-'+participants.recipient;
 
-            if (participants.recipient == this.user_id)
+            if ((participants.sender == this.user_id || participants.recipient == this.user_id) && !this.talks[channel])
             {
-                this.talks.push(channel);
-                Echo.private(channel);
+                this.$set(this.talks, channel, {messages: []});
+
+                Echo.join(channel)
+                    .joining((user) => {
+                        console.log(user);
+                    })
+                    .leaving((user) => {
+                        console.log(user);
+                    })
+                    .listen('MessageEvent', (message) => {
+                        this.talks[channel].messages.push(message);
+                    });
             }
+        },
+        privateExit: function(channel)
+        {
+            Echo.leave(channel);
+            this.$delete(this.talks, channel);
         }
     },
     mounted: function()
