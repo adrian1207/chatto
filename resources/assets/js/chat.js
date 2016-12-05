@@ -1,6 +1,16 @@
+/**
+ * Komponent boksa użytkownika
+ */
 Vue.component('user', require('./components/user.vue'));
+
+/**
+ * Komponent okna rozmowy
+ */
 Vue.component('talk', require('./components/talk.vue'));
 
+/**
+ * Główna aplikacja Czatu
+ */
 new Vue({
     el: '#chat',
     data: {
@@ -9,7 +19,11 @@ new Vue({
         talks: {}
     },
     methods: {
-        connect: function()
+
+        /**
+         * Połączenie do czatu ogólnego
+         */
+        echoGlobal: function()
         {
             Echo.join('presence')
                 .here((users) => {
@@ -23,10 +37,18 @@ new Vue({
                     this.users.splice(index, 1);
                 })
                 .listen('InvitationEvent', (participants) => {
-                    this.privateInit(participants)
+                    this.privateConnect(participants.sender, participants.recipient);
                 });
         },
-        connectPrivate: function(channel)
+
+        /**
+         * Połączenie do czatu prywatnego
+         *
+         * @param channel
+         * @param sender
+         * @param recipient
+         */
+        echoPrivate: function(channel, sender, recipient)
         {
             Echo.join(channel)
                 .joining((user) => {
@@ -36,10 +58,44 @@ new Vue({
                     this.talks[channel].messages.push({content: 'Opuścił: '+user.nick, type: 'info'});
                 })
                 .listen('MessageEvent', (message) => {
+                    this.privateOpen(sender, recipient);
                     this.talks[channel].messages.push({content: message.message, type: 'received'});
                 });
         },
-        joinPrivate: function(sender, recipient)
+
+        /**
+         * Event zaproszenia innego użytkownika do kanału prywatnego
+         *
+         * @param sender
+         * @param recipient
+         */
+        eventInvite: function(sender, recipient)
+        {
+            this.privateConnect(sender, recipient);
+            this.privateOpen(sender, recipient);
+            this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
+        },
+
+        /**
+         * Dołączenie użytkownika do kanału prywatnego
+         *
+         * @param sender
+         * @param recipient
+         */
+        privateConnect: function(sender, recipient)
+        {
+            var channel = setChannelName(sender, recipient);
+
+            this.echoPrivate(channel, sender, recipient);
+        },
+
+        /**
+         * Otworzenie okna rozmowy użytkownikowi
+         *
+         * @param sender
+         * @param recipient
+         */
+        privateOpen: function(sender, recipient)
         {
             var channel = setChannelName(sender, recipient);
             var members = setMembers(this.users, this.user_id, sender, recipient);
@@ -47,19 +103,14 @@ new Vue({
             if ((sender == this.user_id || recipient == this.user_id) && !this.talks[channel])
             {
                 this.$set(this.talks, channel, {messages: [], members: members});
-
-                this.connectPrivate(channel)
             }
         },
-        invite: function(sender, recipient)
-        {
-            this.joinPrivate(sender, recipient);
-            this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
-        },
-        privateInit: function(participants)
-        {
-            this.joinPrivate(participants.sender, participants.recipient);
-        },
+
+        /**
+         * Opuszczenie kanału prywatnego
+         *
+         * @param channel
+         */
         privateExit: function(channel)
         {
             Echo.leave(channel);
@@ -74,9 +125,17 @@ new Vue({
             }
         });
 
+        /**
+         * User ID pobrane z meta
+         *
+         * @type {*|jQuery}
+         */
         this.user_id = $('meta[name="user-id"]').attr('content');
 
-        this.connect();
+        /**
+         * Połączenie do czatu ogólnego
+         */
+        this.echoGlobal();
     }
 });
 

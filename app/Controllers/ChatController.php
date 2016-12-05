@@ -33,7 +33,7 @@ class ChatController extends Controller
      */
     public function invite(Request $request)
     {
-        broadcast((new InvitationEvent($request->get('sender'), $request->get('recipient'))));
+        broadcast((new InvitationEvent($request->get('sender'), $request->get('recipient'))))->toOthers();
     }
 
     /**
