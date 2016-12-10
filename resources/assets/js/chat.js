@@ -172,3 +172,119 @@ function setMembers(users, me, sender, recipient)
     if (me == recipient)
         return {'me': users[recipientIndex], 'guest': users[senderIndex]};
 };
+
+/**
+ * Isotope - plugin do płynnych gridów
+ */
+$('.grid').isotope({
+    itemSelector: '.user',
+    layoutMode: 'fitRows'
+});
+
+/**
+ * Snippet do dropdownów filtrujacych
+ */
+$(function() {
+    $('.dropdown-menu').click(function(e) {
+        e.stopPropagation();
+        setLabel();
+    });
+
+    function setLabel() {
+        $('.dropdown-menu').each(function() {
+
+            var chosen = $(this).find(':checked').length;
+
+            if ($(this).hasClass('region'))
+            {
+                var labelChosen = 'Województwa: ';
+                var labelEmpty = ' - województwo -';
+            }
+
+            if ($(this).hasClass('interest'))
+            {
+                var labelChosen = 'Cele: ';
+                var labelEmpty = ' - poszukujący -';
+            }
+
+            if (chosen)
+                $(this).prev('button').find('.chosen').text(labelChosen+chosen);
+            else
+                $(this).prev('button').find('.chosen').text(labelEmpty);
+        });
+    }
+
+    setLabel();
+});
+
+/**
+ * jQuery UI slider - do kontrolki suwaka
+ */
+$(function() {
+    $(".age-range").slider({
+        range: true,
+        min: 14,
+        max: 80,
+        values: [14, 80],
+        slide: function(event, ui) {
+            $(".age-min").text(ui.values[0]);
+            $(".age-max").text(ui.values[1]);
+        }
+    });
+});
+
+/**
+ * Snippet do checkboxów ukrytych w buttonach
+ */
+$(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            settings = {
+                on: {
+                    icon: 'glyphicon glyphicon-check'
+                },
+                off: {
+                    icon: 'glyphicon glyphicon-unchecked'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});
