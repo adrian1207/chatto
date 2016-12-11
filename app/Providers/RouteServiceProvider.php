@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Providers;
+namespace chatto\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'nuta\Controllers';
+    protected $namespace = 'chatto\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.

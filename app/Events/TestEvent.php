@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Events;
+namespace chatto\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;

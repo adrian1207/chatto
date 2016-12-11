@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Rozmowni.pl',
+    'name' => 'Chatto.pl',
 
     /*
     |--------------------------------------------------------------------------
@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        nuta\Providers\AppServiceProvider::class,
-        nuta\Providers\AuthServiceProvider::class,
-        nuta\Providers\BroadcastServiceProvider::class,
-        nuta\Providers\EventServiceProvider::class,
-        nuta\Providers\RouteServiceProvider::class,
+        chatto\Providers\AppServiceProvider::class,
+        chatto\Providers\AuthServiceProvider::class,
+        chatto\Providers\BroadcastServiceProvider::class,
+        chatto\Providers\EventServiceProvider::class,
+        chatto\Providers\RouteServiceProvider::class,
 
     ],
 

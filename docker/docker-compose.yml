@@ -2,31 +2,31 @@ version: '2'
 services:
   mysql:
     image: mysql
-    container_name: nuta_mysql
+    container_name: chatto_mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=nuta
-      - MYSQL_PASSWORD=nuta123
-      - MYSQL_USER=nuta
+      - MYSQL_ROOT_PASSWORD=05530talaC
+      - MYSQL_DATABASE=chatto
+      - MYSQL_PASSWORD=05530talaC
+      - MYSQL_USER=chatto
     ports:
       - "3306:3306"
   redis:
     image: redis
-    container_name: nuta_redis
+    container_name: chatto_redis
     ports:
      - 6379:6379
     volumes:
       - ./redis/redis.conf:/etc/redis/redis.conf
   php:
     image: karbon001/docker-laravel-php
-    container_name: nuta_php7
+    container_name: chatto_php7
     build: ./build/supervisor
     environment:
       DB_HOST_READ: mysql
       DB_HOST_WRITE: mysql
-      DB_DATABASE: nuta
-      DB_USERNAME: nuta
-      DB_PASSWORD: nuta123
+      DB_DATABASE: chatto
+      DB_USERNAME: chatto
+      DB_PASSWORD: 05530talaC
     links:
      - mysql:mysql
      - redis:redis
@@ -35,7 +35,7 @@ services:
       - ./supervisor/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
   nginx:
     image: nginx
-    container_name: nuta_nginx
+    container_name: chatto_nginx
     links:
      - php:fpm
      - node:node
@@ -49,7 +49,7 @@ services:
       - ./certs/:/etc/nginx/ssl/
   node:
     image: node
-    container_name: nuta_node
+    container_name: chatto_node
     links:
      - redis:redis
     ports:

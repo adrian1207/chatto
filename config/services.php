@@ -30,7 +30,7 @@ return [
     ],
 
     'stripe' => [
-        'model' => nuta\Models\User::class,
+        'model' => chatto\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],

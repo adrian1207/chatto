@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Providers;
+namespace chatto\Providers;
 
 use Illuminate\Support\ServiceProvider;
 

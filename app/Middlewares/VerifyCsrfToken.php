@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Middlewares;
+namespace chatto\Middlewares;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 

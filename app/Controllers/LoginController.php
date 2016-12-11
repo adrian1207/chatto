@@ -1,10 +1,10 @@
 <?php
 
-namespace nuta\Controllers;
+namespace chatto\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
-use nuta\Models\User;
+use chatto\Models\User;
 
 class LoginController extends Controller
 {

@@ -30,5 +30,5 @@ import Echo from "laravel-echo"
 window.Echo = new Echo({
     broadcaster: 'socket.io',
     host: 'https://localhost:3000',
-    namespace: 'nuta.Events'
+    namespace: 'chatto.Events'
 });

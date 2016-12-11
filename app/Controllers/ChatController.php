@@ -1,10 +1,10 @@
 <?php
 
-namespace nuta\Controllers;
+namespace chatto\Controllers;
 
 use Illuminate\Http\Request;
-use nuta\Events\InvitationEvent;
-use nuta\Events\MessageEvent;
+use chatto\Events\InvitationEvent;
+use chatto\Events\MessageEvent;
 
 class ChatController extends Controller
 {

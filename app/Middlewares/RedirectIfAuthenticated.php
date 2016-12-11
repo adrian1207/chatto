@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Middlewares;
+namespace chatto\Middlewares;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;

@@ -1143,7 +1143,7 @@ namespace {
          */
         public static function handle($input, $output = null){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \nuta\Console\Kernel::handle($input, $output);
+            return \chatto\Console\Kernel::handle($input, $output);
         }
         
         /**
@@ -1156,7 +1156,7 @@ namespace {
          */
         public static function terminate($input, $status){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \nuta\Console\Kernel::terminate($input, $status);
+            \chatto\Console\Kernel::terminate($input, $status);
         }
         
         /**
@@ -1169,7 +1169,7 @@ namespace {
          */
         public static function command($signature, $callback){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \nuta\Console\Kernel::command($signature, $callback);
+            return \chatto\Console\Kernel::command($signature, $callback);
         }
         
         /**
@@ -1181,7 +1181,7 @@ namespace {
          */
         public static function registerCommand($command){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \nuta\Console\Kernel::registerCommand($command);
+            \chatto\Console\Kernel::registerCommand($command);
         }
         
         /**
@@ -1194,7 +1194,7 @@ namespace {
          */
         public static function call($command, $parameters = array()){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \nuta\Console\Kernel::call($command, $parameters);
+            return \chatto\Console\Kernel::call($command, $parameters);
         }
         
         /**
@@ -1207,7 +1207,7 @@ namespace {
          */
         public static function queue($command, $parameters = array()){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \nuta\Console\Kernel::queue($command, $parameters);
+            \chatto\Console\Kernel::queue($command, $parameters);
         }
         
         /**
@@ -1218,7 +1218,7 @@ namespace {
          */
         public static function all(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \nuta\Console\Kernel::all();
+            return \chatto\Console\Kernel::all();
         }
         
         /**
@@ -1229,7 +1229,7 @@ namespace {
          */
         public static function output(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            return \nuta\Console\Kernel::output();
+            return \chatto\Console\Kernel::output();
         }
         
         /**
@@ -1240,7 +1240,7 @@ namespace {
          */
         public static function bootstrap(){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \nuta\Console\Kernel::bootstrap();
+            \chatto\Console\Kernel::bootstrap();
         }
         
         /**
@@ -1252,7 +1252,7 @@ namespace {
          */
         public static function setArtisan($artisan){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
-            \nuta\Console\Kernel::setArtisan($artisan);
+            \chatto\Console\Kernel::setArtisan($artisan);
         }
         
     }
@@ -1399,7 +1399,7 @@ namespace {
         /**
          * Get the currently authenticated user.
          *
-         * @return \nuta\Models\User|null 
+         * @return \chatto\Models\User|null 
          * @static 
          */
         public static function user(){
@@ -1503,7 +1503,7 @@ namespace {
          *
          * @param mixed $id
          * @param bool $remember
-         * @return \nuta\Models\User|false 
+         * @return \chatto\Models\User|false 
          * @static 
          */
         public static function loginUsingId($id, $remember = false){
@@ -1514,7 +1514,7 @@ namespace {
          * Log the given user ID into the application without sessions or cookies.
          *
          * @param mixed $id
-         * @return \nuta\Models\User|false 
+         * @return \chatto\Models\User|false 
          * @static 
          */
         public static function onceUsingId($id){
@@ -1608,7 +1608,7 @@ namespace {
         /**
          * Return the currently cached user.
          *
-         * @return \nuta\Models\User|null 
+         * @return \chatto\Models\User|null 
          * @static 
          */
         public static function getUser(){
@@ -1650,7 +1650,7 @@ namespace {
         /**
          * Get the last user we attempted to authenticate.
          *
-         * @return \nuta\Models\User 
+         * @return \chatto\Models\User 
          * @static 
          */
         public static function getLastAttempted(){
@@ -1690,7 +1690,7 @@ namespace {
         /**
          * Determine if the current user is authenticated.
          *
-         * @return \nuta\Models\User 
+         * @return \chatto\Models\User 
          * @throws \Illuminate\Auth\AuthenticationException
          * @static 
          */

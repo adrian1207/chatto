@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Middlewares;
+namespace chatto\Middlewares;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 

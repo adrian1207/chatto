@@ -13,15 +13,15 @@ echo.
 echo.
 echo .....instalacja migracji
 echo.
-@docker exec nuta_php7 bash -c "cd /home/www ; php artisan migrate:install"
+@docker exec chatto_php7 bash -c "cd /home/www ; php artisan migrate:install"
 echo.
 echo .....wykonanie migracji
 echo.
-@docker exec nuta_php7 bash -c "cd /home/www ; php artisan migrate"
+@docker exec chatto_php7 bash -c "cd /home/www ; php artisan migrate"
 echo.
 echo .....uruchomienie Supervisord
 echo.
-@docker exec -d nuta_php7 supervisord
+@docker exec -d chatto_php7 supervisord
 echo.
 echo .....proces startowania serwera Laravel Echo...
 echo.

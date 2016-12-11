@@ -1,6 +1,6 @@
 <?php
 
-namespace nuta\Exceptions;
+namespace chatto\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
