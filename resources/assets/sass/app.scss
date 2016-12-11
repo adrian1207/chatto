@@ -1,81 +1,10 @@
 // Variables
-@import "variables";
-@import "bootswatch";
+@import "lib/variables";
+@import "lib/bootswatch";
+@import "lib/mixins";
+@import "app/structure";
+@import "app/login";
+@import "app/custom";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-
-// Odstępy na pasek z góry
-body {
-  margin-top: 100px;
-}
-
-@media(min-width:768px) {
-  body {
-    margin-top: 50px;
-  }
-}
-
-#wrapper {
-  padding-left: 0;
-
-  .navbar-brand {
-    width: 250px;
-  }
-
-  .filters {
-    padding: 10px 0;
-
-    .age-range {
-      display: inline-block;
-      width: 180px;
-      margin: 0 8px;
-
-      .ui-slider-range {
-        background: $brand-primary;
-      }
-    }
-
-    .button-checkbox button {
-      text-align: left !important;
-    }
-  }
-
-  #page-wrapper {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-  }
-}
-
-
-@media(min-width:768px) {
-  #wrapper {
-    padding-left: 250px;
-
-    #page-wrapper {
-      padding: 10px;
-    }
-  }
-}
-
-@media(min-width:768px) {
-  .side-nav {
-    position: fixed;
-    top: 51px;
-    left: 250px;
-    width: 250px;
-    margin-left: -250px;
-    border: none;
-    border-radius: 0;
-    overflow-y: auto;
-    background-color: $gray-base;
-    bottom: 0;
-    overflow-x: hidden;
-    padding-bottom: 40px;
-  }
-}
-
-.ui-dialog {
-  z-index: 1030 !important;
-}

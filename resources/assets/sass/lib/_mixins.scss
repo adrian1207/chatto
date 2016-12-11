@@ -1,0 +1,46 @@
+@mixin hover($color:$orange) {
+	background-color: $color;
+	color: $white;
+}
+@mixin duration($time:0.3s)
+{
+    -webkit-transition-duration: $time;
+    transition-duration: $time;
+}
+@mixin btn($color_up:$btn_default_color_gradient,$color_down:$btn_default_color)
+{
+	font-family: $noto_sans;
+	font-weight: bold;
+	color:$white!important;
+	font-size: 12px;
+	@include gradient($color_up,$color_down);
+	border: 0;
+	height: 35px;
+	line-height: 35px;
+	padding: 0 16px;
+	border-radius: 2px;
+	&:hover{
+		border:0px;
+		background: $orange;
+		color: $white!important;
+	}
+}
+@mixin gradient($color_up,$color_down)
+{
+	background: $color_down;
+	background: -moz-linear-gradient(top,  $color_up 0%, $color_down 100%);
+	background: -webkit-linear-gradient(top,  $color_up 0%,$color_down 100%);
+	background: linear-gradient(to bottom,  $color_up 0%,$color_down 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{$color_up}', endColorstr='{$color_down}',GradientType=0 );
+}
+@mixin transform($rule){
+	-ms-transform: $rule;
+    -webkit-transform: $rule;
+    transform: $rule;
+}
+@mixin center(){
+	top:50%;
+	left: 50%;
+	@include transform(translateY(-50%) translateX(-50%));
+}
+

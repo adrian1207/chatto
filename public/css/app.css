@@ -168,6 +168,112 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 .popover {
   color: #333333; }
 
+body {
+  margin-top: 100px; }
+
+@media (min-width: 768px) {
+  body {
+    margin-top: 50px; } }
+
+#wrapper {
+  padding-left: 0; }
+  #wrapper .navbar-brand {
+    width: 250px; }
+  #wrapper .filters {
+    padding: 10px 0; }
+    #wrapper .filters .age-range {
+      display: inline-block;
+      width: 180px;
+      margin: 0 8px; }
+      #wrapper .filters .age-range .ui-slider-range {
+        background: #2780E3; }
+    #wrapper .filters .button-checkbox button {
+      text-align: left !important; }
+  #wrapper #page-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 0; }
+
+@media (min-width: 768px) {
+  #wrapper {
+    padding-left: 250px; }
+    #wrapper #page-wrapper {
+      padding: 10px; } }
+
+@media (min-width: 768px) {
+  .side-nav {
+    position: fixed;
+    top: 51px;
+    left: 250px;
+    width: 250px;
+    margin-left: -250px;
+    border: none;
+    border-radius: 0;
+    overflow-y: auto;
+    background-color: #000;
+    bottom: 0;
+    overflow-x: hidden;
+    padding-bottom: 40px; } }
+
+.login {
+  margin-top: 50px;
+  background-color: #222222;
+  -webkit-transition-duration: 1.4s;
+  transition-duration: 1.4s; }
+  .login .vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    -webkit-transition-duration: 2s;
+    transition-duration: 2s; }
+    .login .vertical .content {
+      width: 600px;
+      overflow: hidden; }
+      .login .vertical .content .form-group {
+        top: 20px;
+        position: relative;
+        opacity: 0;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s; }
+        .login .vertical .content .form-group:nth-child(1) {
+          -webkit-transition-delay: 100ms;
+          transition-delay: 100ms; }
+        .login .vertical .content .form-group:nth-child(2) {
+          -webkit-transition-delay: 200ms;
+          transition-delay: 200ms; }
+        .login .vertical .content .form-group:nth-child(3) {
+          -webkit-transition-delay: 300ms;
+          transition-delay: 300ms; }
+        .login .vertical .content .form-group:nth-child(4) {
+          -webkit-transition-delay: 400ms;
+          transition-delay: 400ms; }
+        .login .vertical .content .form-group:nth-child(5) {
+          -webkit-transition-delay: 500ms;
+          transition-delay: 500ms; }
+      .login .vertical .content .has-error .control-label,
+      .login .vertical .content .has-error .radio-inline,
+      .login .vertical .content .has-error .help-block,
+      .login .vertical .content .has-error .form-control-feedback {
+        color: #FF0039; }
+      .login .vertical .content .has-error .form-control {
+        border-color: #FF0039; }
+  .login.loaded .vertical {
+    top: 50%;
+    opacity: 1; }
+    .login.loaded .vertical .content .form-group {
+      top: 0px;
+      opacity: 1; }
+
+@media (max-width: 991px) {
+  .login .vertical .content {
+    width: 360px; } }
+
+.ui-dialog {
+  z-index: 1030 !important; }
+
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -5933,55 +6039,5 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
-
-body {
-  margin-top: 100px; }
-
-@media (min-width: 768px) {
-  body {
-    margin-top: 50px; } }
-
-#wrapper {
-  padding-left: 0; }
-  #wrapper .navbar-brand {
-    width: 250px; }
-  #wrapper .filters {
-    padding: 10px 0; }
-    #wrapper .filters .age-range {
-      display: inline-block;
-      width: 180px;
-      margin: 0 8px; }
-      #wrapper .filters .age-range .ui-slider-range {
-        background: #2780E3; }
-    #wrapper .filters .button-checkbox button {
-      text-align: left !important; }
-  #wrapper #page-wrapper {
-    width: 100%;
-    height: 100%;
-    padding: 0; }
-
-@media (min-width: 768px) {
-  #wrapper {
-    padding-left: 250px; }
-    #wrapper #page-wrapper {
-      padding: 10px; } }
-
-@media (min-width: 768px) {
-  .side-nav {
-    position: fixed;
-    top: 51px;
-    left: 250px;
-    width: 250px;
-    margin-left: -250px;
-    border: none;
-    border-radius: 0;
-    overflow-y: auto;
-    background-color: #000;
-    bottom: 0;
-    overflow-x: hidden;
-    padding-bottom: 40px; } }
-
-.ui-dialog {
-  z-index: 1030 !important; }
 
 /*# sourceMappingURL=app.css.map */

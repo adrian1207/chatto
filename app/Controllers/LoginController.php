@@ -66,11 +66,13 @@ class LoginController extends Controller
         {
             return Validator::make($data, [
                 'nick' => 'required|min:4|max:24',
-                'password' => 'required|min:4',
+                'password' => 'required|min:4|max:64',
             ], [
                 'nick.min' => 'Nick powinien być dłuższy niż 4 znaki.',
                 'nick.max' => 'Nick powinien być krótszy niż 24 znaki.',
                 'password.required' => 'Zaznaczyłeś, że masz zarezerwowany nick. Podaj hasło.',
+                'password.min' => 'Hasło musi być dłuższe niż 4 znaki.',
+                'password.max' => 'Hasło musi być krótsze niż 64 znaki.',
             ]);
         }
         else

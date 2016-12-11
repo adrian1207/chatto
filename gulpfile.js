@@ -6,6 +6,7 @@ elixir(mix => {
     mix.sass('app.scss')
         .webpack('app.js')
         .webpack('chat.js')
+        .webpack('login.js')
         .styles([
             '../bower/jquery-ui/themes/base/jquery-ui.min.css'
         ])
