@@ -17,7 +17,7 @@ body {
   }
 
   .filters {
-    padding: 10px 0;
+    padding: 9px 0;
 
     .age-range {
       display: inline-block;
@@ -32,6 +32,9 @@ body {
     .button-checkbox button {
       text-align: left !important;
     }
+  }
+  .filters > * {
+    margin: 1px 0px;
   }
 
   #page-wrapper {
@@ -61,7 +64,7 @@ body {
     border: none;
     border-radius: 0;
     overflow-y: auto;
-    background-color: $gray-base;
+    background-color: $gray-darker;
     bottom: 0;
     overflow-x: hidden;
     padding-bottom: 40px;

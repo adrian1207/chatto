@@ -245,10 +245,10 @@ $(function () {
             $checkbox = $widget.find('input:checkbox'),
             settings = {
                 on: {
-                    icon: 'glyphicon glyphicon-check'
+                    icon: 'fa fa-check-square-o fa-fw'
                 },
                 off: {
-                    icon: 'glyphicon glyphicon-unchecked'
+                    icon: 'fa fa-square-o fa-fw'
                 }
             };
 

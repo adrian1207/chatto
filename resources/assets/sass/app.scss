@@ -1,10 +1,12 @@
-// Variables
+// Libraries
 @import "lib/variables";
 @import "lib/bootswatch";
 @import "lib/mixins";
-@import "app/structure";
-@import "app/login";
-@import "app/custom";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Custom
+@import "app/structure";
+@import "app/login";
+@import "app/custom";

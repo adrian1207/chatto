@@ -10,13 +10,13 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <!-- Styles -->
+    <!-- Style -->
     <link href="/css/app.css" rel="stylesheet">
     <link href="/css/all.css" rel="stylesheet">
 
-    <!-- Scripts -->
+    <!-- Skrypty wstępne -->
     <script>window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?></script>
-    <script src="https://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="{{ config('app.url') }}:3000/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/all.js"></script>
 </head>
@@ -44,12 +44,7 @@
 
             {{-- Sidebar --}}
             <div class="side-nav">
-                <a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Wyloguj
-                </a>
-                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
+                @include('partials.sidebar')
             </div>
         </nav>
 
@@ -59,7 +54,7 @@
         </div>
     </div>
 
-    {{-- Skrypty --}}
+    {{-- Skrypty końcowe --}}
     <script src="/js/chat.js"></script>
 </body>
 </html>

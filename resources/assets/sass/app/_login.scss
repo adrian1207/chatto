@@ -1,9 +1,8 @@
-
 .login {
   margin-top: 50px;
   background-color: $gray-darker;
-
   @include duration(1.4s);
+
   .vertical{
     position: absolute;
     top: 50%;
@@ -34,9 +33,6 @@
         &:nth-child(4) {
           transition-delay: 400ms;
         }
-        &:nth-child(5) {
-          transition-delay: 500ms;
-        }
       }
       .has-error .control-label,
       .has-error .radio-inline,
@@ -47,6 +43,18 @@
       .has-error .form-control {
         border-color: $brand-danger;
       }
+    }
+
+    .pass-field {
+      height: 0px;
+      overflow: hidden;
+      @include duration(0.4s);
+    }
+    .pass-field.show-pass {
+      height: 43px;
+    }
+    .pass-field.show-pass.has-error {
+      height: 88px;
     }
   }
 

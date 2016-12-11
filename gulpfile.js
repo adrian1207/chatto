@@ -8,7 +8,8 @@ elixir(mix => {
         .webpack('chat.js')
         .webpack('login.js')
         .styles([
-            '../bower/jquery-ui/themes/base/jquery-ui.min.css'
+            '../bower/jquery-ui/themes/base/jquery-ui.min.css',
+            '../bower/font-awesome/css/font-awesome.min.css'
         ])
         .scripts([
             '../bower/jquery-ui/ui/widgets/dialog.js',
@@ -17,5 +18,6 @@ elixir(mix => {
             '../bower/isotope/dist/isotope.pkgd.min.js'
         ])
         .copy('resources/assets/bower/jquery-ui/themes/base/images', 'public/css/images')
-        .copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
+        .copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/', 'public/fonts/bootstrap')
+        .copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
 });

@@ -110,7 +110,7 @@ class LoginController extends Controller
             return $this->logged($request);
         }
 
-        return redirect()->back()->withErrors(['global' => 'Chwilowy problem z wejściem, prosimy spróbować za chwilę.']);
+        return redirect()->back()->withInput()->withErrors(['global' => 'Chwilowy problem z wejściem, prosimy spróbować za chwilę.']);
     }
 
     /**
@@ -126,7 +126,7 @@ class LoginController extends Controller
             return $this->logged($request);
         }
 
-        return redirect()->back()->withErrors(['global' => \Lang::get('auth.failed')]);
+        return redirect()->back()->withInput()->withErrors(['global' => \Lang::get('auth.failed')]);
     }
 
     /**

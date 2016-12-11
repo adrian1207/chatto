@@ -89,10 +89,10 @@
                 <button type="button" class="btn btn-default btn-block btn-sm">Spotkania</button>
                 <input type="checkbox" class="hidden" />
             </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Seksu</button>
-                <input type="checkbox" class="hidden" />
-            </span>
+            {{--<span class="button-checkbox">--}}
+                {{--<button type="button" class="btn btn-default btn-block btn-sm">Seksu</button>--}}
+                {{--<input type="checkbox" class="hidden" />--}}
+            {{--</span>--}}
             <span class="button-checkbox">
                 <button type="button" class="btn btn-default btn-block btn-sm">Związku</button>
                 <input type="checkbox" class="hidden" />

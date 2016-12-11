@@ -13,10 +13,10 @@ $(function () {
             $checkbox = $widget.find('input:checkbox'),
             settings = {
                 on: {
-                    icon: 'glyphicon glyphicon-check'
+                    icon: 'fa fa-check-square-o fa-fw'
                 },
                 off: {
-                    icon: 'glyphicon glyphicon-unchecked'
+                    icon: 'fa fa-square-o fa-fw'
                 }
             };
 
@@ -43,9 +43,9 @@ $(function () {
                 .addClass('state-icon ' + settings[$button.data('state')].icon);
 
             if (isChecked)
-                $('.pass-field').show();
+                $('.pass-field').addClass('show-pass');
             else
-                $('.pass-field').hide();
+                $('.pass-field').removeClass('show-pass');
         }
 
         // Initialization

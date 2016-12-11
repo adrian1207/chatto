@@ -18,7 +18,7 @@
                     <label for="nick" class="col-md-4 control-label">Nick</label>
 
                     <div class="col-md-6">
-                        <input id="nick" type="nick" class="form-control" name="nick" value="{{ old('nick') }}" required autofocus>
+                        <input id="nick" type="nick" class="form-control" name="nick" value="{{ old('nick') }}" autofocus>
 
                         @if ($errors->has('nick'))
                             <span class="help-block">
