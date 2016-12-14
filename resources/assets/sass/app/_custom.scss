@@ -1,3 +1,15 @@
 .ui-dialog {
   z-index: 1030 !important;
 }
+.button-checkbox button {
+  text-align: left !important;
+}
+.button-radio button {
+  text-align: left !important;
+}
+.ui-slider-range {
+  background: $brand-primary;
+}
+.dropdown-menu.primary {
+  background-color: $brand-primary;
+}

@@ -9,7 +9,7 @@
     left:50%;
     transform: translate(-50%,-50%);
     opacity: 0;
-    @include duration(2s);
+    @include duration(0.8s);
 
     .content {
       width: 600px;
@@ -78,6 +78,18 @@
     .vertical {
       .content {
         width: 360px;
+      }
+
+      .pass-field {
+        height: 0px;
+        overflow: hidden;
+        @include duration(0.4s);
+      }
+      .pass-field.show-pass {
+        height: 69px;
+      }
+      .pass-field.show-pass.has-error {
+        height: 111px;
       }
     }
   }

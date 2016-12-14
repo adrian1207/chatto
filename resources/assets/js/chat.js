@@ -287,4 +287,55 @@ $(function () {
         }
         init();
     });
+
+    $('.button-radio').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $radio = $widget.find('input:radio'),
+            settings = {
+                on: {
+                    icon: 'fa fa-check-circle-o fa-fw'
+                },
+                off: {
+                    icon: 'fa fa-circle-o fa-fw'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            $radio.prop('checked', !$radio.is(':checked'));
+            $radio.triggerHandler('change');
+            updateDisplay();
+        });
+        $radio.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $radio.is(':checked');
+            
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
 });

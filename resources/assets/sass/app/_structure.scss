@@ -23,14 +23,6 @@ body {
       display: inline-block;
       width: 180px;
       margin: 0 8px;
-
-      .ui-slider-range {
-        background: $brand-primary;
-      }
-    }
-
-    .button-checkbox button {
-      text-align: left !important;
     }
   }
   .filters > * {

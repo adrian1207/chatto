@@ -15,9 +15,11 @@ elixir(mix => {
             '../bower/jquery-ui/ui/widgets/dialog.js',
             '../bower/jquery-ui/ui/widgets/slider.js',
             '../bower/dialogextend/dialogextend.min.js',
-            '../bower/isotope/dist/isotope.pkgd.min.js'
+            '../bower/isotope/dist/isotope.pkgd.min.js',
+            '../bower/bootstrap-filestyle/src/bootstrap-filestyle.min.js'
         ])
         .copy('resources/assets/bower/jquery-ui/themes/base/images', 'public/css/images')
+        .copy('resources/assets/images', 'public/images')
         .copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/', 'public/fonts/bootstrap')
         .copy('resources/assets/bower/font-awesome/fonts', 'public/fonts');
 });
