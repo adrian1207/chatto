@@ -233,6 +233,17 @@ $(function()
             $(".age-max").text(ui.values[1]);
         }
     });
+
+    $(".age-profile").slider({
+        min: 14,
+        max: 80,
+        create: function() {
+            $(".age-handle").text($(this).slider( "value" )+' lat');
+        },
+        slide: function(event, ui) {
+            $(".age-handle").text(ui.value+' lat');
+        }
+    });
 });
 
 /**

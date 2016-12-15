@@ -16,6 +16,25 @@
 .top-buffer {
   margin-top: 10px;
 }
+.top-buffer-20 {
+  margin-top: 20px;
+}
+.age-handle {
+  width: 3em !important;
+  height: 1.6em !important;
+  top: 50% !important;
+  margin-top: -.8em;
+  text-align: center;
+  line-height: 1.6em;
+}
+.age-handle.ui-state-default,
+.age-handle.ui-state-active,
+.age-handle.ui-state-focus {
+  border: 1px solid #003eff !important;
+  background: #007fff !important;
+  font-weight: normal !important;
+  color: #ffffff !important;
+}
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
