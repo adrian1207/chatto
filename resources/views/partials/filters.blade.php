@@ -5,103 +5,47 @@
         <input type="text" class="form-control" id="nick" placeholder="Nick">
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="chosen"> - wybierz województwo - </span> <span class="caret"></span>
-        </button>
-        <div class="dropdown-menu region">
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Dolnośląskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Kujawsko-pomorskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Lubelskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Lubuskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Łódzkie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Małopolskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Mazowieckie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Opolskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Podkarpackie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Podlaskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Pomorskie</button>
-                <input type="checkbox" class="hidden" />
-            </span><span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Śląskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Świętokrzyskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Warmińsko-mazurskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Wielkopolskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Zachodniopomorskie</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-        </div>
+    <div class="form-group form-group-sm filter-region">
+        <select class="selectpicker form-control"
+                multiple
+                data-selected-text-format="count"
+                data-count-selected-text="Województwa: {0}"
+                data-style="btn btn-default btn-sm"
+                data-none-selected-text=" - województwa - ">
+
+            <option>Dolnośląskie</option>
+            <option>Kujawsko-pomorskie</option>
+            <option>Lubelskie</option>
+            <option>Lubuskie</option>
+            <option>Łódzkie</option>
+            <option>Małopolskie</option>
+            <option>Mazowieckie</option>
+            <option>Opolskie</option>
+            <option>Podkarpackie</option>
+            <option>Podlaskie</option>
+            <option>Pomorskie</option>
+            <option>Śląskie</option>
+            <option>Świętokrzyskie</option>
+            <option>Warmińsko-mazurskie</option>
+            <option>Wielkopolskie</option>
+            <option>Zachodniopomorskie</option>
+        </select>
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <span class="chosen"> - wybierz poszukujących - </span> <span class="caret"></span>
-        </button>
-        <div class="dropdown-menu interest">
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Luźnej rozmowy</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Spotkania</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            {{--<span class="button-checkbox">--}}
-                {{--<button type="button" class="btn btn-default btn-block btn-sm">Seksu</button>--}}
-                {{--<input type="checkbox" class="hidden" />--}}
-            {{--</span>--}}
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Związku</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn btn-default btn-block btn-sm">Niczego</button>
-                <input type="checkbox" class="hidden" />
-            </span>
-        </div>
+    <div class="form-group form-group-sm filter-target">
+        <select class="selectpicker form-control"
+                multiple
+                data-selected-text-format="count"
+                data-count-selected-text="Cele: {0}"
+                data-style="btn btn-default btn-sm"
+                data-none-selected-text=" - poszukujący - ">
+
+            <option>Luźnej rozmowy</option>
+            <option>Spotkania</option>
+            {{--<option>Seksu</option>--}}
+            <option>Związku</option>
+            <option>Niczego</option>
+        </select>
     </div>
 
     <div class="form-group form-group-sm btn btn-default btn-sm">

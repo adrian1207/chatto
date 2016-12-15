@@ -1,15 +1,22 @@
 .ui-dialog {
   z-index: 1030 !important;
 }
-.button-checkbox button {
-  text-align: left !important;
-}
-.button-radio button {
-  text-align: left !important;
-}
 .ui-slider-range {
-  background: $brand-primary;
+  background: $brand-primary !important;
 }
-.dropdown-menu.primary {
-  background-color: $brand-primary;
+.filter-region {
+  width: 160px;
 }
+.filter-target {
+  width: 130px;
+}
+.profile-description {
+  resize: vertical;
+}
+.top-buffer {
+  margin-top: 10px;
+}
+.bootstrap-select > .dropdown-toggle.bs-placeholder,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:active { color: #ffffff !important; }

@@ -3309,7 +3309,7 @@ tbody.collapse.in {
   list-style: none;
   font-size: 15px;
   text-align: left;
-  background-color: #222222;
+  background-color: #fff;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0;
@@ -6053,16 +6053,25 @@ body {
 .ui-dialog {
   z-index: 1030 !important; }
 
-.button-checkbox button {
-  text-align: left !important; }
-
-.button-radio button {
-  text-align: left !important; }
-
 .ui-slider-range {
-  background: #2780E3; }
+  background: #2780E3 !important; }
 
-.dropdown-menu.primary {
-  background-color: #2780E3; }
+.filter-region {
+  width: 160px; }
+
+.filter-target {
+  width: 130px; }
+
+.profile-description {
+  resize: vertical; }
+
+.top-buffer {
+  margin-top: 10px; }
+
+.bootstrap-select > .dropdown-toggle.bs-placeholder,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:active {
+  color: #ffffff !important; }
 
 /*# sourceMappingURL=app.css.map */
