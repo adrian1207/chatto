@@ -20,7 +20,15 @@ class BroadcastServiceProvider extends ServiceProvider
         {
             if (\Auth::check())
             {
-                return ['id' => $user->id, 'nick' => $user->nick];
+                return [
+                    'id' => $user->id,
+                    'nick' => $user->nick,
+                    'age' => $user->age,
+                    'about' => $user->about,
+                    'interests' => $user->interests,
+                    'region' => $user->region,
+                    'photo' => $user->photo
+                ];
             }
         });
 
@@ -28,7 +36,15 @@ class BroadcastServiceProvider extends ServiceProvider
         {
             if ($user->id == $sender || $user->id == $recipient)
             {
-                return ['id' => $user->id, 'nick' => $user->nick];
+                return [
+                    'id' => $user->id,
+                    'nick' => $user->nick,
+                    'age' => $user->age,
+                    'about' => $user->about,
+                    'interests' => $user->interests,
+                    'region' => $user->region,
+                    'photo' => $user->photo
+                ];
             }
         });
     }

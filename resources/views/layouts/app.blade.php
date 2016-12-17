@@ -41,12 +41,12 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 @include('partials.filters')
             </div>
-
-            {{-- Sidebar --}}
-            <div class="side-nav">
-                @include('partials.sidebar')
-            </div>
         </nav>
+
+        {{-- Sidebar --}}
+        <div class="side-nav">
+            @include('partials.sidebar')
+        </div>
 
         {{-- Treść --}}
         <div id="content">

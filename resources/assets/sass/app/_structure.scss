@@ -1,33 +1,16 @@
 // Odstępy na pasek z góry
 body {
-  margin-top: 100px;
+  margin-top: 95px;
 }
 
-@media(min-width:768px) {
+@media(min-width:1390px) {
   body {
-    margin-top: 50px;
+    margin-top: 60px;
   }
 }
 
 #wrapper {
-  padding-left: 0;
-
-  .navbar-brand {
-    width: 250px;
-  }
-
-  .filters {
-    padding: 9px 0;
-
-    .age-range {
-      display: inline-block;
-      width: 180px;
-      margin: 0 8px;
-    }
-  }
-  .filters > * {
-    margin: 1px 0px;
-  }
+  padding-left: 250px;
 
   #page-wrapper {
     width: 100%;
@@ -36,29 +19,24 @@ body {
   }
 }
 
-@media(min-width:768px) {
-  #wrapper {
-    padding-left: 250px;
-
-    #page-wrapper {
-      padding: 10px;
-    }
-  }
+.side-nav {
+  position: fixed;
+  top: 80px;
+  left: 250px;
+  width: 250px;
+  margin-left: -250px;
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+  background-color: $gray-darker;
+  bottom: 0;
+  overflow-x: hidden;
+  padding-bottom: 20px;
 }
 
-@media(min-width:768px) {
+@media(min-width:1390px) {
   .side-nav {
     position: fixed;
-    top: 51px;
-    left: 250px;
-    width: 250px;
-    margin-left: -250px;
-    border: none;
-    border-radius: 0;
-    overflow-y: auto;
-    background-color: $gray-darker;
-    bottom: 0;
-    overflow-x: hidden;
-    padding-bottom: 40px;
+    top: 50px;
   }
 }

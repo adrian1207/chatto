@@ -1,8 +1,11 @@
 <template>
-    <div class="col-lg-2 pull-left" style="padding: 8px;">
-        <div class="panel panel-primary">
-            <div class="panel-heading">{{ user.nick }}</div>
-            <div class="panel-body">{{ user.id }}</div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ user.nick }} ({{ user.age }})</div>
+        <div class="panel-body">
+            <div>{{ user.photo }}</div>
+            <div>Region: {{ user.region }}</div>
+            <div>Cele: {{ user.interests }}</div>
+            <div>{{ user.about }}</div>
         </div>
     </div>
 </template>

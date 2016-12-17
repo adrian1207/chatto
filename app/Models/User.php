@@ -20,12 +20,19 @@ class User extends Authenticatable
     const FEMALE = 1;
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'interests'
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nick', 'password', 'gender', 'reserved', '',
+        'nick', 'password', 'gender', 'reserved', 'age', 'region', 'photo', 'about'
     ];
 
     /**

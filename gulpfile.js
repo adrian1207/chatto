@@ -10,7 +10,8 @@ elixir(mix => {
         .styles([
             '../bower/jquery-ui/themes/base/jquery-ui.min.css',
             '../bower/font-awesome/css/font-awesome.min.css',
-            '../bower/bootstrap-select/dist/css/bootstrap-select.min.css'
+            '../bower/bootstrap-select/dist/css/bootstrap-select.min.css',
+            '../bower/jasny-bootstrap/dist/css/jasny-bootstrap.min.css'
         ])
         .scripts([
             '../bower/jquery-ui/ui/widgets/dialog.js',
@@ -18,7 +19,8 @@ elixir(mix => {
             '../bower/dialogextend/dialogextend.min.js',
             '../bower/isotope/dist/isotope.pkgd.min.js',
             '../bower/bootstrap-filestyle/src/bootstrap-filestyle.min.js',
-            '../bower/bootstrap-select/dist/js/bootstrap-select.min.js'
+            '../bower/bootstrap-select/dist/js/bootstrap-select.min.js',
+            '../bower/jasny-bootstrap/dist/js/jasny-bootstrap.min.js'
         ])
         .copy('resources/assets/bower/jquery-ui/themes/base/images', 'public/css/images')
         .copy('resources/assets/images', 'public/images')

@@ -4,6 +4,17 @@
 .ui-slider-range {
   background: $brand-primary !important;
 }
+.navbar-brand {
+  width: 250px;
+}
+.filters {
+  padding: 10px 0;
+}
+.age-range {
+  display: inline-block;
+  width: 180px;
+  margin: 0 8px;
+}
 .filter-region {
   width: 160px;
 }
@@ -34,6 +45,23 @@
   background: #007fff !important;
   font-weight: normal !important;
   color: #ffffff !important;
+}
+.white {
+  color: #ffffff;
+}
+.thumbnail {
+  width: 220px;
+  height: 170px;
+}
+.fileinput-new {
+  .thumbnail.male {
+    background: url('../images/avatar_male.png') no-repeat center center #fff;
+  }
+  .thumbnail.female {
+    background: url('../images/avatar_female.png') no-repeat center center #fff;
+  }
+}
+.user {
 }
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,

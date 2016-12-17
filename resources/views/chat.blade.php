@@ -4,8 +4,8 @@
 
 <div id="chat">
     <div class="container-fluid">
-        <div class="row">
-            <div class="grid" v-for="user in users" v-on:dblclick="eventInvite({{ Auth::user()->id }}, user.id)" v-if="user.id != {{ Auth::user()->id }}">
+        <div class="row grid">
+            <div class="col-lg-2 user" v-for="user in users" v-on:dblclick="eventInvite({{ Auth::user()->id }}, user.id)">
                 <user :user="user"></user>
             </div>
         </div>

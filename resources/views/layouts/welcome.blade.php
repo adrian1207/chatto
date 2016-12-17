@@ -16,11 +16,6 @@
     <!-- Scripts -->
     <script src="/js/login.js"></script>
     <script>window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?></script>
-    <script type="text/javascript">
-        $(window).on("load", function() {
-            $('body').addClass('loaded');
-        });
-    </script>
 </head>
 <body class="login">
     <nav class="navbar navbar-inverse navbar-fixed-top">

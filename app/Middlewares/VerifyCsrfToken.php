@@ -12,6 +12,6 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        'broadcasting/auth'
+        'broadcasting/auth', 'chat/update', 'chat/message', 'login'
     ];
 }

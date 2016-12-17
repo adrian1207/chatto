@@ -1,5 +1,11 @@
 window.$ = window.jQuery = require('jquery');
 
+/**
+ * Wykonanie animacji wejścia
+ */
+$(window).on("load", function() {
+    $('body').addClass('loaded');
+});
 
 /**
  * Snippet do checkboxów ukrytych w buttonach

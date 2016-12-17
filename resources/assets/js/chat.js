@@ -11,7 +11,7 @@ Vue.component('talk', require('./components/talk.vue'));
 /**
  * Główna aplikacja Czatu
  */
-new Vue({
+var chatApp = new Vue({
     el: '#chat',
     data: {
         user_id: null,
@@ -38,6 +38,14 @@ new Vue({
                 })
                 .listen('InvitationEvent', (participants) => {
                     this.privateConnect(participants.sender, participants.recipient);
+                })
+                .listen('UpdateProfileEvent', (user) => {
+                    var index = this.users.map(function(usr) { return usr.id; }).indexOf(user.id);
+                    this.users[index].age = user.data.age;
+                    this.users[index].about = user.data.about;
+                    this.users[index].interests = user.data.interests;
+                    this.users[index].region = user.data.region;
+                    this.users[index].photo = user.data.photo;
                 });
         },
 
@@ -71,6 +79,9 @@ new Vue({
          */
         eventInvite: function(sender, recipient)
         {
+            if (sender == recipient)
+                return false;
+
             this.privateConnect(sender, recipient);
             this.privateOpen(sender, recipient);
             this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
@@ -140,6 +151,42 @@ new Vue({
 });
 
 /**
+ * Aplikacja ustawień użytkownika
+ */
+var profileApp = new Vue({
+    el: '#profile',
+    data: {
+        photo: '',
+        age: '',
+        region: '',
+        interests: [],
+        about: ''
+    },
+    methods: {
+        update: function()
+        {
+            this.$http.post('/chat/update', {
+                photo: this.photo,
+                age: this.age,
+                region: this.region,
+                interests: this.interests,
+                about: this.about
+            }).then((response) => {
+                console.log(response);
+            });
+        }
+    },
+    mounted: function()
+    {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    }
+});
+
+/**
  * Jednolita nazwa kanału
  *
  * @param sender
@@ -182,43 +229,6 @@ $('.grid').isotope({
 });
 
 /**
- * Snippet do dropdownów filtrujacych
- */
-$(function()
-{
-    $('.dropdown-menu').click(function(e) {
-        e.stopPropagation();
-        setLabel();
-    });
-
-    function setLabel() {
-        $('.dropdown-menu').each(function() {
-
-            var chosen = $(this).find(':checked').length;
-
-            if ($(this).hasClass('region'))
-            {
-                var labelChosen = 'Województwa: ';
-                var labelEmpty = ' - województwo -';
-            }
-
-            if ($(this).hasClass('interest'))
-            {
-                var labelChosen = 'Cele: ';
-                var labelEmpty = ' - poszukujący -';
-            }
-
-            if (chosen)
-                $(this).prev('button').find('.chosen').text(labelChosen+chosen);
-            else
-                $(this).prev('button').find('.chosen').text(labelEmpty);
-        });
-    }
-
-    setLabel();
-});
-
-/**
  * jQuery UI slider - do kontrolki suwaka
  */
 $(function()
@@ -238,10 +248,12 @@ $(function()
         min: 14,
         max: 80,
         create: function() {
-            $(".age-handle").text($(this).slider( "value" )+' lat');
+            $(".age-handle").text($(this).slider("value")+' lat');
+            $(".age-input").val($(this).slider("value"));
         },
         slide: function(event, ui) {
             $(".age-handle").text(ui.value+' lat');
+            $(".age-input").val(ui.value);
         }
     });
 });
@@ -275,10 +287,7 @@ $(function()
         function updateDisplay() {
             var isChecked = $checkbox.is(':checked');
 
-            // Set the button's state
             $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
             $button.find('.state-icon')
                 .removeClass()
                 .addClass('state-icon ' + settings[$button.data('state')].icon);
@@ -288,7 +297,6 @@ $(function()
 
             updateDisplay();
 
-            // Inject the icon if applicable
             if ($button.find('.state-icon').length == 0) {
                 $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
             }
