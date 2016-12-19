@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'interests'
+        'interests' => 'array'
     ];
 
     /**

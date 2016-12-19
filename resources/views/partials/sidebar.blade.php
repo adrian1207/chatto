@@ -13,7 +13,7 @@
                                 <span class="btn btn-primary btn-file pull-right">
                                     <span class="fileinput-new">Wybierz zdjęcie</span>
                                     <span class="fileinput-exists">Zmień zdjęcie</span>
-                                    <input type="file" name="avatar">
+                                    <input type="file" name="photo" v-model="photo">
                                 </span>
                                 <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Usuń</a>
                             </div>
@@ -74,19 +74,23 @@
                 </form>
             </div>
         </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-12">
-                <form class="form-horizontal" role="reserve" method="POST" action="{{ url('/update') }}">
-                    <div class="top-buffer">
-                        <input type="password" class="form-control" name="password" placeholder="Hasło rezerwacji" />
+        @if (!\Auth::user()->reserved)
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="reserving">
+                        <form class="form-horizontal" role="reserve" v-on:submit.prevent='reserve'>
+                            <div class="top-buffer">
+                                <input type="password" class="form-control" name="password" placeholder="Hasło rezerwacji" v-model="password" />
+                            </div>
+                            <div class="top-buffer">
+                                <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save fa-fw"></i> Zarezerwuj nick</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="top-buffer">
-                        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save fa-fw"></i> Zarezerwuj nick</button>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+        @endif
         <hr />
         <div class="row">
 

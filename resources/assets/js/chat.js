@@ -160,17 +160,34 @@ var profileApp = new Vue({
         age: '',
         region: '',
         interests: [],
-        about: ''
+        about: '',
+        password: ''
     },
     methods: {
+        /**
+         * Aktualizacja profilu użytkownika
+         */
         update: function()
         {
+            console.log();
             this.$http.post('/chat/update', {
                 photo: this.photo,
                 age: this.age,
                 region: this.region,
                 interests: this.interests,
                 about: this.about
+            }).then((response) => {
+                console.log(response);
+            });
+        },
+        
+        /**
+         * Rezerwacja nicku użytkownika
+         */
+        reserve: function()
+        {
+            this.$http.post('/chat/reserve', {
+                password: this.password
             }).then((response) => {
                 console.log(response);
             });
@@ -233,6 +250,9 @@ $('.grid').isotope({
  */
 $(function()
 {
+    /**
+     * Suwak w filtrach
+     */
     $(".age-range").slider({
         range: true,
         min: 14,
@@ -244,16 +264,21 @@ $(function()
         }
     });
 
+    /**
+     * Suwak w profilu
+     */
     $(".age-profile").slider({
         min: 14,
         max: 80,
         create: function() {
             $(".age-handle").text($(this).slider("value")+' lat');
             $(".age-input").val($(this).slider("value"));
+            Vue.set(profileApp, 'age', $(this).slider("value"));
         },
         slide: function(event, ui) {
             $(".age-handle").text(ui.value+' lat');
             $(".age-input").val(ui.value);
+            Vue.set(profileApp, 'age', ui.value);
         }
     });
 });

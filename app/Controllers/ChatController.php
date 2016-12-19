@@ -89,17 +89,33 @@ class ChatController extends Controller
         $user = User::find(\Auth::id());
         $user->age = $request->get('age');
         $user->about = $request->get('about');
-//        $user->interests = $request->get('interests');
+        $user->interests = $request->get('interests');
         $user->region = $request->get('region');
         $user->save();
 
         broadcast((new UpdateProfileEvent(\Auth::id(), $request->all())));
 
-        return response()->json(\Auth::id());
+        return response()->json($request->get('interests'));
     }
-    
+
     /**
-     * Walidacja fomularza aktualizacji użytkownika
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reserve(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = User::find(\Auth::id());
+        $user->reserved = 1;
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+
+        return response()->json('OK');
+    }
+
+    /**
+     * Walidacja fomularzy aktualizacji użytkownika i rezerwacji nicku
      *
      * @param array $data
      * @return \Illuminate\Validation\Validator
@@ -111,6 +127,7 @@ class ChatController extends Controller
             'region' => 'in:'.implode(',', $this->regions),
             'interests.*' => 'in:'.implode(',', $this->interests),
             'about' => 'max:200',
+            'password' => 'min:4|max:64',
         ]);
     }
 }
