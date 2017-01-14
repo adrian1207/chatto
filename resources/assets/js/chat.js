@@ -156,40 +156,52 @@ var chatApp = new Vue({
 var profileApp = new Vue({
     el: '#profile',
     data: {
-        photo: '',
-        age: '',
-        region: '',
-        interests: [],
-        about: '',
-        password: ''
+        reserved: false,
+        changed: false,
+        updated: false
     },
     methods: {
         /**
          * Aktualizacja profilu użytkownika
          */
-        update: function()
+        update: function(event)
         {
-            console.log();
-            this.$http.post('/chat/update', {
-                photo: this.photo,
-                age: this.age,
-                region: this.region,
-                interests: this.interests,
-                about: this.about
-            }).then((response) => {
-                console.log(response);
+            var $vue = this;
+
+            if (!$(event.target).valid())
+                return;
+
+            this.$http.post('/chat/update', new FormData(event.target))
+                .then((response) => {
+                    $vue.changed = !response.ok;
+                    $vue.updated = response.ok;
+                    showingAlert(false);
             });
         },
-        
+
+        /**
+         * Zdarzenie zmiany wartości w formularzu
+         */
+        change: function()
+        {
+            this.changed = true;
+            this.updated = false;
+        },
+
         /**
          * Rezerwacja nicku użytkownika
          */
-        reserve: function()
+        reserve: function(event)
         {
-            this.$http.post('/chat/reserve', {
-                password: this.password
-            }).then((response) => {
-                console.log(response);
+            var $vue = this;
+
+            if (!$(event.target).valid())
+                return;
+
+            this.$http.post('/chat/reserve', new FormData(event.target))
+                .then((response) => {
+                    $vue.reserved = response.ok;
+                    showingAlert(true);
             });
         }
     },
@@ -256,8 +268,8 @@ $(function()
     $(".age-range").slider({
         range: true,
         min: 14,
-        max: 80,
-        values: [14, 80],
+        max: 70,
+        values: [14, 70],
         slide: function(event, ui) {
             $(".age-min").text(ui.values[0]);
             $(".age-max").text(ui.values[1]);
@@ -267,18 +279,42 @@ $(function()
     /**
      * Suwak w profilu
      */
+    var age;
+    if ($(".age-input").val() > 0)
+        age = $(".age-input").val();
+    else
+        age = null;
+
     $(".age-profile").slider({
         min: 14,
-        max: 80,
+        max: 70,
+        value: age,
         create: function() {
-            $(".age-handle").text($(this).slider("value")+' lat');
-            $(".age-input").val($(this).slider("value"));
-            Vue.set(profileApp, 'age', $(this).slider("value"));
+            if (age)
+            {
+                $(".age-handle").html(age+' <i class="fa fa-times"></i>');
+                $(".age-profile .fa").click(function() {
+                    $(".age-handle").text('Wiek');
+                    $(".age-input").val('');
+                    profileApp.change();
+                });
+            }
+            else
+            {
+                $(".age-handle").text('Wiek');
+                $(".age-input").val('');
+            }
         },
         slide: function(event, ui) {
-            $(".age-handle").text(ui.value+' lat');
+            $(".age-handle").html(ui.value+' <i class="fa fa-times"></i>');
             $(".age-input").val(ui.value);
-            Vue.set(profileApp, 'age', ui.value);
+            profileApp.change();
+
+            $(".age-profile .fa").click(function() {
+                $(".age-handle").text('Wiek');
+                $(".age-input").val('');
+                profileApp.change();
+            });
         }
     });
 });
@@ -329,3 +365,18 @@ $(function()
         init();
     });
 });
+
+/**
+ * Ukrycie po czasie aleru pokazanego przez Vue
+ */
+function showingAlert(hideAdditionalElements)
+{
+    window.setTimeout(function()
+    {
+        $('.alert').fadeTo(500, 0).slideUp(500);
+
+        if (hideAdditionalElements)
+            $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
+
+    }, 4000);
+};

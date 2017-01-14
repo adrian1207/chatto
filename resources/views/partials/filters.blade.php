@@ -51,7 +51,7 @@
     <div class="form-group form-group-sm btn btn-default btn-sm">
         Od <span class="age-min">14</span>
         <div class="age-range"></div>
-        do <span class="age-max">80</span> lat
+        do <span class="age-max">70</span> lat
     </div>
 
     <span class="button-checkbox">

@@ -7,6 +7,7 @@ use chatto\Models\User;
 use Illuminate\Http\Request;
 use chatto\Events\InvitationEvent;
 use chatto\Events\MessageEvent;
+use Intervention\Image\Facades\Image;
 use Validator;
 
 class ChatController extends Controller
@@ -41,6 +42,7 @@ class ChatController extends Controller
         'Spotkania',
         'Seksu',
         'Związku',
+        'Przyjaźni',
         'Niczego',
     ];
     
@@ -91,11 +93,26 @@ class ChatController extends Controller
         $user->about = $request->get('about');
         $user->interests = $request->get('interests');
         $user->region = $request->get('region');
+
+        if ($request->hasFile('photo'))
+        {
+            $image = $request->file('photo');
+            $filename  = time().'.'.$image->getClientOriginalExtension();
+            $path = public_path('photos/'.$filename);
+            Image::make($image->getRealPath())->save($path);
+            $pathThumb = public_path('photos/thumbs/'.$filename);
+            Image::make($image->getRealPath())->resize(140, 100)->save($pathThumb);
+            $user->photo = $filename;
+        }
+        else
+        {
+            if ($request->get('photo') === '')
+                $user->photo = '';
+        }
+
         $user->save();
 
-        broadcast((new UpdateProfileEvent(\Auth::id(), $request->all())));
-
-        return response()->json($request->get('interests'));
+        broadcast((new UpdateProfileEvent(\Auth::id(), $user->toArray())));
     }
 
     /**
@@ -110,8 +127,6 @@ class ChatController extends Controller
         $user->reserved = 1;
         $user->password = bcrypt($request->get('password'));
         $user->save();
-
-        return response()->json('OK');
     }
 
     /**
@@ -128,6 +143,7 @@ class ChatController extends Controller
             'interests.*' => 'in:'.implode(',', $this->interests),
             'about' => 'max:200',
             'password' => 'min:4|max:64',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     }
 }

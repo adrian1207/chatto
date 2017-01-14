@@ -6099,6 +6099,9 @@ body {
 .fileinput-new .thumbnail.female {
   background: url("../images/avatar_female.png") no-repeat center center #fff; }
 
+.error {
+  color: #FF0039; }
+
 .bootstrap-select > .dropdown-toggle.bs-placeholder,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,

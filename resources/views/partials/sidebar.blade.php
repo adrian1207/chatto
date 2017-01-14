@@ -3,19 +3,22 @@
         <div class="row">
             <div class="col-md-12">
                 <h3 class="white">{{ \Auth::user()->nick }}</h3>
-                <form class="form-horizontal" role="form" v-on:submit.prevent='update'>
+                <form class="form-horizontal" role="form" v-on:submit.prevent='update($event)' enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="top-buffer">
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                            <div class="fileinput-preview thumbnail {{ (\Auth::user()->gender) ? 'female':'male' }}" data-trigger="fileinput"></div>
+                        <div class="fileinput {!! (\Auth::user()->photo) ? 'fileinput-exists' : 'fileinput-new' !!}" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail {{ (\Auth::user()->gender) ? 'female':'male' }}" data-trigger="fileinput"></div>
+                            <div class="fileinput-preview fileinput-exists thumbnail">
+                                <img src="{!! 'photos/'.\Auth::user()->photo !!}" alt="{!! \Auth::user()->nick !!} photo">
+                            </div>
                             <div>
                                 <span class="btn btn-primary btn-file pull-right">
                                     <span class="fileinput-new">Wybierz zdjęcie</span>
                                     <span class="fileinput-exists">Zmień zdjęcie</span>
-                                    <input type="file" name="photo" v-model="photo">
+                                    <input v-on:change="change()" type="file" name="photo">
                                 </span>
-                                <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Usuń</a>
+                                <a href="#" v-on:click="change()" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Usuń</a>
                             </div>
                         </div>
                     </div>
@@ -24,69 +27,83 @@
                         <div class="age-profile">
                             <div class="age-handle ui-slider-handle"></div>
                         </div>
-                        <input type="text" class="age-input hidden" v-model="age" />
+
+                        <input name="age" value="{!! \Auth::user()->age !!}" type="text" class="age-input hidden" />
                     </div>
 
                     <div class="top-buffer-20">
-                        <select class="selectpicker form-control" data-style="btn-primary"  v-model="region">
-                            <option> - moje województwo - </option>
-                            <option>Dolnośląskie</option>
-                            <option>Kujawsko-pomorskie</option>
-                            <option>Lubelskie</option>
-                            <option>Lubuskie</option>
-                            <option>Łódzkie</option>
-                            <option>Małopolskie</option>
-                            <option>Mazowieckie</option>
-                            <option>Opolskie</option>
-                            <option>Podkarpackie</option>
-                            <option>Podlaskie</option>
-                            <option>Pomorskie</option>
-                            <option>Śląskie</option>
-                            <option>Świętokrzyskie</option>
-                            <option>Warmińsko-mazurskie</option>
-                            <option>Wielkopolskie</option>
-                            <option>Zachodniopomorskie</option>
+                        <select name="region" v-on:change="change()" class="selectpicker form-control" data-style="btn-primary">
+                            <option value=""> - moje województwo - </option>
+                            <option {!! (\Auth::user()->region == 'Dolnośląskie') ? 'selected':'' !!}>Dolnośląskie</option>
+                            <option {!! (\Auth::user()->region == 'Kujawsko-pomorskie') ? 'selected':'' !!}>Kujawsko-pomorskie</option>
+                            <option {!! (\Auth::user()->region == 'Lubelskie') ? 'selected':'' !!}>Lubelskie</option>
+                            <option {!! (\Auth::user()->region == 'Lubuskie') ? 'selected':'' !!}>Lubuskie</option>
+                            <option {!! (\Auth::user()->region == 'Łódzkie') ? 'selected':'' !!}>Łódzkie</option>
+                            <option {!! (\Auth::user()->region == 'Małopolskie') ? 'selected':'' !!}>Małopolskie</option>
+                            <option {!! (\Auth::user()->region == 'Mazowieckie') ? 'selected':'' !!}>Mazowieckie</option>
+                            <option {!! (\Auth::user()->region == 'Opolskie') ? 'selected':'' !!}>Opolskie</option>
+                            <option {!! (\Auth::user()->region == 'Podkarpackie') ? 'selected':'' !!}>Podkarpackie</option>
+                            <option {!! (\Auth::user()->region == 'Podlaskie') ? 'selected':'' !!}>Podlaskie</option>
+                            <option {!! (\Auth::user()->region == 'Pomorskie') ? 'selected':'' !!}>Pomorskie</option>
+                            <option {!! (\Auth::user()->region == 'Śląskie') ? 'selected':'' !!}>Śląskie</option>
+                            <option {!! (\Auth::user()->region == 'Świętokrzyskie') ? 'selected':'' !!}>Świętokrzyskie</option>
+                            <option {!! (\Auth::user()->region == 'Warmińsko-mazurskie') ? 'selected':'' !!}>Warmińsko-mazurskie</option>
+                            <option {!! (\Auth::user()->region == 'Wielkopolskie') ? 'selected':'' !!}>Wielkopolskie</option>
+                            <option {!! (\Auth::user()->region == 'Zachodniopomorskie') ? 'selected':'' !!}>Zachodniopomorskie</option>
                         </select>
                     </div>
 
                     <div class="top-buffer">
-                        <select class="selectpicker form-control" v-model="interests"
+                        <select name="interests[]" v-on:change="change()" class="selectpicker form-control"
                                 multiple
                                 data-selected-text-format="count"
                                 data-count-selected-text="Wybrane cele: {0}"
                                 data-style="btn-primary"
                                 data-none-selected-text=" - poszukuję - ">
-                            <option>Luźnej rozmowy</option>
-                            <option>Spotkania</option>
-                            {{--<option>Seksu</option>--}}
-                            <option>Związku</option>
-                            <option>Niczego</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Luźnej rozmowy', \Auth::user()->interests)) ? 'selected':'' !!}>Luźnej rozmowy</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Spotkania', \Auth::user()->interests)) ? 'selected':'' !!}>Spotkania</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Związku', \Auth::user()->interests)) ? 'selected':'' !!}>Związku</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Przyjaźni', \Auth::user()->interests)) ? 'selected':'' !!}>Przyjaźni</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Seksu', \Auth::user()->interests)) ? 'selected':'' !!}>Seksu</option>
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Niczego', \Auth::user()->interests)) ? 'selected':'' !!}>Niczego</option>
                         </select>
                     </div>
 
                     <div class="top-buffer">
-                        <textarea class="form-control profile-description" rows="3" placeholder="Opisz się w kilku słowach..." v-model="about"></textarea>
+                        <textarea
+                            name="about" v-on:keyup="change()"
+                            data-msg-maxlength="Opis nie może być dłuższy niż 200 znaków."
+                            data-rule-maxlength="200"
+                            class="form-control profile-description" rows="3" placeholder="Opisz się w kilku słowach...">{!! \Auth::user()->about !!}</textarea>
                     </div>
 
                     <div class="top-buffer">
-                        <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-pencil fa-fw"></i> Ustaw</button>
+                        <button type="submit" class="btn btn-success pull-right" v-if="changed"><i class="fa fa-pencil fa-fw"></i> Zapisz zmiany</button>
+
+                        <div class="alert alert-success"  v-if="updated">
+                            <strong>Ustawiono!</strong> Twoje dane zostały zaktualizowane.
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
         @if (!\Auth::user()->reserved)
-            <hr />
+            <hr class="delAfterAlert" />
             <div class="row">
                 <div class="col-md-12">
-                    <div class="reserving">
-                        <form class="form-horizontal" role="reserve" v-on:submit.prevent='reserve'>
+                    <div class="reserving" v-if="!reserved">
+                        <form class="form-horizontal" role="reserve" v-on:submit.prevent='reserve($event)'>
                             <div class="top-buffer">
-                                <input type="password" class="form-control" name="password" placeholder="Hasło rezerwacji" v-model="password" />
+                                <input type="password" class="form-control" name="password" data-msg-minlength="Hasło musi mieć minimum 4 znaki."
+                                       data-rule-minlength="4" placeholder="Hasło rezerwacji" />
                             </div>
                             <div class="top-buffer">
                                 <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-save fa-fw"></i> Zarezerwuj nick</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="alert alert-success" v-else>
+                        <strong>Zarezerwowano!</strong> Dziękujemy za rejestrację nicku.
                     </div>
                 </div>
             </div>

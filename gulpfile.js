@@ -20,7 +20,10 @@ elixir(mix => {
             '../bower/isotope/dist/isotope.pkgd.min.js',
             '../bower/bootstrap-filestyle/src/bootstrap-filestyle.min.js',
             '../bower/bootstrap-select/dist/js/bootstrap-select.min.js',
-            '../bower/jasny-bootstrap/dist/js/jasny-bootstrap.min.js'
+            '../bower/jasny-bootstrap/dist/js/jasny-bootstrap.min.js',
+            '../bower/jquery-validation/dist/jquery.validate.min.js',
+            '../bower/jquery-validation/dist/additional-methods.min.js',
+            '../bower/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
         ])
         .copy('resources/assets/bower/jquery-ui/themes/base/images', 'public/css/images')
         .copy('resources/assets/images', 'public/images')
