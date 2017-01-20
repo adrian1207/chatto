@@ -1,4 +1,5 @@
 window._ = require('lodash');
+window.vueIsotope = require('vueisotope');
 
 /**
  * jQuery, Bootstrap 3, jQueryUI
@@ -11,6 +12,7 @@ require('jquery-ui/ui/widgets/dialog');
  * @type {Vue$2}
  */
 window.Vue = require('vue');
+
 require('vue-resource');
 
 /**

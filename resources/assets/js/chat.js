@@ -11,7 +11,7 @@ Vue.component('talk', require('./components/talk.vue'));
 /**
  * Komponent VueIsotope do siatek na Vue (https://github.com/David-Desmaisons/Vue.Isotope)
  */
-Vue.component('isotope', require('vueisotope'));
+Vue.component('isotope', window.vueIsotope);
 
 /**
  * Główna aplikacja Czatu
