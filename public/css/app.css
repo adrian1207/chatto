@@ -5935,6 +5935,7 @@ button.close {
     display: none !important; } }
 
 body {
+  background-color: #F2F2F2;
   margin-top: 95px; }
 
 @media (min-width: 1390px) {
@@ -6107,5 +6108,42 @@ body {
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
   color: #ffffff !important; }
+
+.user-panel {
+  float: left;
+  position: relative;
+  height: 100%;
+  width: 360px;
+  padding: 20px 30px;
+  margin: 30px 20px;
+  background-color: #fff;
+  box-shadow: 3px 3px 7px -1px rgba(0, 0, 0, 0.75); }
+  .user-panel .gender {
+    position: absolute;
+    font-size: 25px;
+    right: 30px;
+    top: 20px; }
+  .user-panel .photo {
+    text-align: center; }
+    .user-panel .photo img {
+      border-radius: 80px; }
+  .user-panel .nick {
+    text-align: center; }
+  .user-panel .region {
+    text-align: center;
+    color: #777; }
+  .user-panel .interests {
+    text-align: center;
+    padding: 15px 0 0 0; }
+    .user-panel .interests span {
+      display: inline-block;
+      border: solid 1px #777;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin: 1px 3px; }
+  .user-panel .about {
+    padding: 15px 0 0 0;
+    text-align: center;
+    color: #777; }
 
 /*# sourceMappingURL=app.css.map */

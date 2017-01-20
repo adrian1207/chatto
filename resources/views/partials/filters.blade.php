@@ -1,4 +1,4 @@
-<div class="form-inline filters">
+<div id="filters" class="form-inline filters">
 
     <div class="form-group form-group-sm">
         <label class="sr-only" for="nick">Nick</label>
@@ -42,8 +42,9 @@
 
             <option>Luźnej rozmowy</option>
             <option>Spotkania</option>
-            {{--<option>Seksu</option>--}}
             <option>Związku</option>
+            <option>Przyjaźni</option>
+            <option>Seksu</option>
             <option>Niczego</option>
         </select>
     </div>
@@ -55,12 +56,12 @@
     </div>
 
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm">Kobiety</button>
-        <input type="checkbox" class="hidden" checked />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="filterFemale()">Kobiety</button>
+        <input type="checkbox" class="hidden" v-model="female" />
     </span>
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm">Mężczyźni</button>
-        <input type="checkbox" class="hidden" checked />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="filterMale()">Mężczyźni</button>
+        <input type="checkbox" class="hidden" v-model="male" />
     </span>
     <span class="button-checkbox">
         <button type="button" class="btn btn-default btn-sm">Ze zdjęciem</button>
@@ -70,4 +71,11 @@
         <button type="button" class="btn btn-default btn-sm">Z opisem</button>
         <input type="checkbox" class="hidden" />
     </span>
+
+    <div class="form-group form-group-sm sorting">
+        <select class="selectpicker form-control" data-style="btn btn-default btn-sm" v-model="sorting" v-on:change="changeSorting()">
+            <option value="by_nick">Sortuj po nicku</option>
+            <option value="by_age">Sortuj po wieku</option>
+        </select>
+    </div>
 </div>

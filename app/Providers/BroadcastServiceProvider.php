@@ -22,6 +22,7 @@ class BroadcastServiceProvider extends ServiceProvider
             {
                 return [
                     'id' => $user->id,
+                    'gender' => $user->gender,
                     'nick' => $user->nick,
                     'age' => $user->age,
                     'about' => $user->about,
@@ -38,6 +39,7 @@ class BroadcastServiceProvider extends ServiceProvider
             {
                 return [
                     'id' => $user->id,
+                    'gender' => $user->gender,
                     'nick' => $user->nick,
                     'age' => $user->age,
                     'about' => $user->about,

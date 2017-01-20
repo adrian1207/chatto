@@ -2,7 +2,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="white">{{ \Auth::user()->nick }}</h3>
+                <h3 class="white">Witaj <strong>{{ \Auth::user()->nick }}</strong></h3>
+                <hr />
                 <form class="form-horizontal" role="form" v-on:submit.prevent='update($event)' enctype="multipart/form-data">
                     {{ csrf_field() }}
 
@@ -10,7 +11,9 @@
                         <div class="fileinput {!! (\Auth::user()->photo) ? 'fileinput-exists' : 'fileinput-new' !!}" data-provides="fileinput">
                             <div class="fileinput-new thumbnail {{ (\Auth::user()->gender) ? 'female':'male' }}" data-trigger="fileinput"></div>
                             <div class="fileinput-preview fileinput-exists thumbnail">
-                                <img src="{!! 'photos/'.\Auth::user()->photo !!}" alt="{!! \Auth::user()->nick !!} photo">
+                                @if (\Auth::user()->photo)
+                                <img src="{!! 'photos/'.\Auth::user()->photo !!}" alt="Moje zdjęcie">
+                                @endif
                             </div>
                             <div>
                                 <span class="btn btn-primary btn-file pull-right">

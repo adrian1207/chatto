@@ -9,6 +9,11 @@ Vue.component('user', require('./components/user.vue'));
 Vue.component('talk', require('./components/talk.vue'));
 
 /**
+ * Komponent VueIsotope do siatek na Vue (https://github.com/David-Desmaisons/Vue.Isotope)
+ */
+Vue.component('isotope', require('vueisotope'));
+
+/**
  * Główna aplikacja Czatu
  */
 var chatApp = new Vue({
@@ -38,14 +43,6 @@ var chatApp = new Vue({
                 })
                 .listen('InvitationEvent', (participants) => {
                     this.privateConnect(participants.sender, participants.recipient);
-                })
-                .listen('UpdateProfileEvent', (user) => {
-                    var index = this.users.map(function(usr) { return usr.id; }).indexOf(user.id);
-                    this.users[index].age = user.data.age;
-                    this.users[index].about = user.data.about;
-                    this.users[index].interests = user.data.interests;
-                    this.users[index].region = user.data.region;
-                    this.users[index].photo = user.data.photo;
                 });
         },
 
@@ -126,6 +123,49 @@ var chatApp = new Vue({
         {
             Echo.leave(channel);
             this.$delete(this.talks, channel);
+        },
+
+        /**
+         * Wykonanie sortowania vue isotope
+         *
+         * @param name
+         */
+        sort: function(name) {
+            this.$refs.grid.sort(name);
+        },
+
+        /**
+         * Wykonanie filtrowania vue isotope
+         *
+         * @param name
+         */
+        filter: function() {
+            this.$refs.grid.filter('all');
+        },
+
+        /**
+         * Ustawienia vue isotope
+         *
+         * @returns json
+         */
+        isotopeOptions: function()
+        {
+            return {
+                sortBy: 'by_nick',
+                getSortData: {
+                    by_nick: function(user) {
+                        return user.nick.toLowerCase();
+                    },
+                    by_age: function(user) {
+                        return user.age;
+                    }
+                },
+                getFilterData: {
+                    all: function() {
+                        return true;
+                    }
+                }
+            };
         }
     },
     mounted: function()
@@ -150,6 +190,56 @@ var chatApp = new Vue({
     }
 });
 
+var filtersApp = new Vue({
+    el: '#filters',
+    data: {
+        sorting: 'by_nick',
+        male: true,
+        female: true
+    },
+    methods: {
+        /**
+         * Zmiana sortowania w aplikacji czatu
+         */
+        changeSorting: function ()
+        {
+            chatApp.sort(this.sorting);
+        },
+
+        /**
+         * Filtrowanie po nazwie filtru w aplikacji czatu
+         */
+        filterMale: function ()
+        {
+            this.male = !this.male;
+
+            if (this.male) {
+                chatApp.filter('male');
+            }
+            else
+            {
+                chatApp.filter('not_male');
+            }
+        },
+
+        /**
+         * Filtrowanie po nazwie filtru w aplikacji czatu
+         */
+        filterFemale: function ()
+        {
+            this.female = !this.female;
+
+            if (this.female) {
+                chatApp.filter('female');
+            }
+            else
+            {
+                chatApp.filter('not_female');
+            }
+        }
+    }
+});
+
 /**
  * Aplikacja ustawień użytkownika
  */
@@ -168,6 +258,8 @@ var profileApp = new Vue({
         {
             var $vue = this;
 
+            Echo.leave('presence');
+
             if (!$(event.target).valid())
                 return;
 
@@ -176,6 +268,8 @@ var profileApp = new Vue({
                     $vue.changed = !response.ok;
                     $vue.updated = response.ok;
                     showingAlert(false);
+
+                    chatApp.echoGlobal();
             });
         },
 
@@ -248,14 +342,6 @@ function setMembers(users, me, sender, recipient)
     if (me == recipient)
         return {'me': users[recipientIndex], 'guest': users[senderIndex]};
 };
-
-/**
- * Isotope - plugin do płynnych gridów
- */
-$('.grid').isotope({
-    itemSelector: '.user',
-    layoutMode: 'fitRows'
-});
 
 /**
  * jQuery UI slider - do kontrolki suwaka
@@ -378,5 +464,5 @@ function showingAlert(hideAdditionalElements)
         if (hideAdditionalElements)
             $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
 
-    }, 4000);
+    }, 3000);
 };

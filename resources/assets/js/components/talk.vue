@@ -12,7 +12,7 @@
                         <div class="input-group">
                             <input v-model="message" type="text" name="message" class="form-control" placeholder="Wiadomość...">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"></button>
+                                <button class="btn btn-default" type="submit">Wyślij</button>
                             </span>
                         </div>
                     </form>

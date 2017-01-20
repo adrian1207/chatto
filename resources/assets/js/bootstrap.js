@@ -1,4 +1,4 @@
-// window._ = require('lodash');
+window._ = require('lodash');
 
 /**
  * jQuery, Bootstrap 3, jQueryUI

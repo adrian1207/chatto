@@ -61,8 +61,6 @@
     background: url('../images/avatar_female.png') no-repeat center center #fff;
   }
 }
-.user {
-}
 .error {
   color: $brand-danger;
 }
@@ -70,3 +68,59 @@
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active { color: #ffffff !important; }
+
+.user-panel {
+  float: left;
+  position: relative;
+  height: 100%;
+  width: 360px;
+  padding: 20px 30px;
+  margin: 30px 20px;
+  background-color: #fff;
+  -webkit-box-shadow: 3px 3px 7px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 3px 7px -1px rgba(0,0,0,0.75);
+  box-shadow: 3px 3px 7px -1px rgba(0,0,0,0.75);
+
+  .gender {
+    position: absolute;
+    font-size: 25px;
+    right: 30px;
+    top: 20px;
+  }
+
+  .photo {
+    text-align: center;
+
+    img {
+      border-radius: 80px;
+    }
+  }
+
+  .nick {
+    text-align: center;
+  }
+
+  .region {
+    text-align: center;
+    color: #777;
+  }
+
+  .interests {
+    text-align: center;
+    padding: 15px 0 0 0;
+
+    span {
+      display: inline-block;
+      border: solid 1px #777;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin: 1px 3px;
+    }
+  }
+
+  .about {
+    padding: 15px 0 0 0;
+    text-align: center;
+    color: #777;
+  }
+}

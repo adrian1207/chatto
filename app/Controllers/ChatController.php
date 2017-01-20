@@ -82,7 +82,7 @@ class ChatController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return void
      */
     public function update(Request $request)
     {
@@ -101,18 +101,18 @@ class ChatController extends Controller
             $path = public_path('photos/'.$filename);
             Image::make($image->getRealPath())->save($path);
             $pathThumb = public_path('photos/thumbs/'.$filename);
-            Image::make($image->getRealPath())->resize(140, 100)->save($pathThumb);
+            Image::make($image->getRealPath())->resize(210, 160)->save($pathThumb);
             $user->photo = $filename;
         }
         else
         {
             if ($request->get('photo') === '')
+            {
                 $user->photo = '';
+            }
         }
-
+        
         $user->save();
-
-        broadcast((new UpdateProfileEvent(\Auth::id(), $user->toArray())));
     }
 
     /**

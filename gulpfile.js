@@ -17,7 +17,6 @@ elixir(mix => {
             '../bower/jquery-ui/ui/widgets/dialog.js',
             '../bower/jquery-ui/ui/widgets/slider.js',
             '../bower/dialogextend/dialogextend.min.js',
-            '../bower/isotope/dist/isotope.pkgd.min.js',
             '../bower/bootstrap-filestyle/src/bootstrap-filestyle.min.js',
             '../bower/bootstrap-select/dist/js/bootstrap-select.min.js',
             '../bower/jasny-bootstrap/dist/js/jasny-bootstrap.min.js',
