@@ -28,11 +28,10 @@ body {
   margin-left: -250px;
   border: none;
   border-radius: 0;
-  overflow-y: auto;
   background-color: $gray-darker;
   bottom: 0;
-  overflow-x: hidden;
-  padding-bottom: 20px;
+  overflow: hidden;
+  padding-bottom: 60px;
 }
 
 @media(min-width:1390px) {

@@ -23,6 +23,7 @@
 }
 .profile-description {
   resize: vertical;
+  overflow: hidden;
 }
 .top-buffer {
   margin-top: 10px;
@@ -69,13 +70,20 @@
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active { color: #ffffff !important; }
 
+#logout-form {
+  position: absolute;
+  width: 210px;
+  left: 20px;
+  bottom: 10px;
+}
+
 .user-panel {
   float: left;
   position: relative;
   height: 100%;
-  width: 360px;
-  padding: 20px 30px;
-  margin: 30px 20px;
+  width: 330px;
+  padding: 20px;
+  margin: 10px;
   background-color: #fff;
   -webkit-box-shadow: 3px 3px 7px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 3px 3px 7px -1px rgba(0,0,0,0.75);
@@ -122,5 +130,12 @@
     padding: 15px 0 0 0;
     text-align: center;
     color: #777;
+  }
+}
+
+.nobody {
+  h2 {
+    text-align: center;
+    margin-top: 20%;
   }
 }

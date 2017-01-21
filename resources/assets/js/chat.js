@@ -14,6 +14,11 @@ Vue.component('talk', require('./components/talk.vue'));
 Vue.component('isotope', window.vueIsotope);
 
 /**
+ * Dyrektywa VueImagesLoaded do ustawienia blokó po załadowaniu zdjęć (https://github.com/David-Desmaisons/Vue.ImagesLoaded)
+ */
+Vue.directive('imagesLoaded', window.imagesLoaded);
+
+/**
  * Główna aplikacja Czatu
  */
 var chatApp = new Vue({
@@ -21,7 +26,9 @@ var chatApp = new Vue({
     data: {
         user_id: null,
         users: [],
-        talks: {}
+        talks: {},
+        nobody: false,
+        filters: {}
     },
     methods: {
 
@@ -130,17 +137,32 @@ var chatApp = new Vue({
          *
          * @param name
          */
-        sort: function(name) {
+        sort: function(name)
+        {
             this.$refs.grid.sort(name);
         },
 
         /**
          * Wykonanie filtrowania vue isotope
          *
-         * @param name
+         * @param filters
          */
-        filter: function() {
-            this.$refs.grid.filter('all');
+        filter: function(filters)
+        {
+            var $vue = this;
+
+            this.filters = filters;
+            this.$refs.grid.filter('filter');
+
+            setTimeout(function(){$vue.nobody = $('.grid .user:visible').length == 0;}, 400);
+        },
+
+        /**
+         * Wykonanie przeboksowania po załadowaniu zdjęć
+         */
+        layout: function()
+        {
+            this.$refs.grid.layout('masonry');
         },
 
         /**
@@ -150,6 +172,8 @@ var chatApp = new Vue({
          */
         isotopeOptions: function()
         {
+            var $vue = this;
+
             return {
                 sortBy: 'by_nick',
                 getSortData: {
@@ -161,8 +185,8 @@ var chatApp = new Vue({
                     }
                 },
                 getFilterData: {
-                    all: function() {
-                        return true;
+                    filter: function(user) {
+                        return filter(user, $vue.filters);
                     }
                 }
             };
@@ -194,8 +218,19 @@ var filtersApp = new Vue({
     el: '#filters',
     data: {
         sorting: 'by_nick',
-        male: true,
-        female: true
+        filters: {
+            nick: '',
+            region: [],
+            interests: [],
+            age_min: 14,
+            age_max: 70,
+            female: true,
+            male: true,
+            photo: false,
+            about: false
+        },
+        age_min: 14,
+        age_max: 70
     },
     methods: {
         /**
@@ -209,33 +244,52 @@ var filtersApp = new Vue({
         /**
          * Filtrowanie po nazwie filtru w aplikacji czatu
          */
-        filterMale: function ()
+        setFilters: function ()
         {
-            this.male = !this.male;
+            this.filters.age_min = this.age_min;
+            this.filters.age_max = this.age_max;
 
-            if (this.male) {
-                chatApp.filter('male');
-            }
-            else
-            {
-                chatApp.filter('not_male');
-            }
+            chatApp.filter(this.filters);
         },
 
         /**
-         * Filtrowanie po nazwie filtru w aplikacji czatu
+         * Filtrowanie mężczyzn
          */
-        filterFemale: function ()
+        setMale: function ()
         {
-            this.female = !this.female;
+            this.filters.male = !this.filters.male;
 
-            if (this.female) {
-                chatApp.filter('female');
-            }
-            else
-            {
-                chatApp.filter('not_female');
-            }
+            chatApp.filter(this.filters);
+        },
+
+        /**
+         * Filtrowanie kobiet
+         */
+        setFemale: function ()
+        {
+            this.filters.female = !this.filters.female;
+
+            chatApp.filter(this.filters);
+        },
+
+        /**
+         * Filtrowanie ze zdjeciami
+         */
+        setPhoto: function ()
+        {
+            this.filters.photo = !this.filters.photo;
+
+            chatApp.filter(this.filters);
+        },
+
+        /**
+         * Filtrowanie z opisami
+         */
+        setAbout: function ()
+        {
+            this.filters.about = !this.filters.about;
+
+            chatApp.filter(this.filters);
         }
     }
 });
@@ -321,7 +375,7 @@ function setChannelName(sender, recipient)
         return 'priv-'+sender+'-'+recipient;
     if (sender < recipient)
         return 'priv-'+recipient+'-'+sender;
-};
+}
 
 /**
  * Obiekt członków czatu
@@ -341,7 +395,92 @@ function setMembers(users, me, sender, recipient)
         return {'me': users[senderIndex], 'guest': users[recipientIndex]};
     if (me == recipient)
         return {'me': users[recipientIndex], 'guest': users[senderIndex]};
-};
+}
+
+/**
+ * Główny filtr użytkownika
+ *
+ * @param user
+ * @param filters
+ * @returns {boolean}
+ */
+function filter (user, filters)
+{
+    // inicjujemy wszystkie filtry na spełnione
+    var nick = true;
+    var region = true;
+    var interests = true;
+    var age_min = user.age >= filters.age_min;
+    var age_max = user.age <= filters.age_max;
+    var female = true;
+    var male = true;
+    var photo = true;
+    var about = true;
+
+    // jeżeli wpisany nick to wyszukaj
+    if (filters.nick != '')
+        nick = user.nick.toLowerCase().includes(filters.nick.toLowerCase());
+
+    // jeżeli wybrane regiony to sprawdź czy user w nich jest
+    if ($.isArray(filters.region) && filters.region.length)
+        region = _.indexOf(filters.region, user.region) != -1;
+
+    // jeżeli wybrane cele to przeleć po celach usera i sprawdź czy któryś ma
+    if ($.isArray(filters.interests) && filters.interests.length)
+    {
+        if ($.isArray(user.interests) && user.interests.length)
+        {
+            interests = false;
+            $.each(user.interests, function (index, value) {
+                var inarray = _.indexOf(filters.interests, value) != -1;
+                if (inarray)
+                    interests = true;
+            });
+        }
+        // chyba że nie ma żadnych wybranych
+        else
+        {
+            interests = false;
+        }
+    }
+
+    // jeżeli domyślny wiek, to pokaż użytkowników bez określonego wieku
+    if (filters.age_min == 14 && filters.age_max == 70)
+    {
+        age_min = true;
+        age_max = true;
+    }
+
+    // jeżeli mężczyzna
+    if (filters.male)
+        male = user.gender == 0;
+    else
+        male = user.gender == 1;
+
+    // jeżeli kobieta
+    if (filters.female)
+        female = user.gender == 1;
+    else
+        female = user.gender == 0;
+
+    // jeżeli wybrany mężczyzna i kobieta to pokaż wszystkich
+    if (filters.male && filters.female)
+    {
+        female = true;
+        male = true;
+    }
+
+    // jeżeli ma zdjęcie
+    if (filters.photo)
+        photo = user.photo != '';
+
+    //jeżeli ma opis
+    if (filters.about)
+        about = user.about != '';
+
+    // zsumuj boole i zwróć końcowy wynik dla tego użytkownika, czy spełnia wszystkie warunki
+    return (nick && region && interests && age_min && age_max && female && male && photo && about);
+}
 
 /**
  * jQuery UI slider - do kontrolki suwaka
@@ -359,6 +498,10 @@ $(function()
         slide: function(event, ui) {
             $(".age-min").text(ui.values[0]);
             $(".age-max").text(ui.values[1]);
+
+            Vue.set(filtersApp, 'age_min', ui.values[0]);
+            Vue.set(filtersApp, 'age_max', ui.values[1]);
+            filtersApp.setFilters();
         }
     });
 
@@ -465,4 +608,4 @@ function showingAlert(hideAdditionalElements)
             $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
 
     }, 3000);
-};
+}

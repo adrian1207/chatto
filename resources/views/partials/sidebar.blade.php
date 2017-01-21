@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="white">Witaj <strong>{{ \Auth::user()->nick }}</strong></h3>
+                <h3 class="white">Witaj, <strong>{{ \Auth::user()->nick }}</strong></h3>
                 <hr />
                 <form class="form-horizontal" role="form" v-on:submit.prevent='update($event)' enctype="multipart/form-data">
                     {{ csrf_field() }}
@@ -77,7 +77,7 @@
                             name="about" v-on:keyup="change()"
                             data-msg-maxlength="Opis nie może być dłuższy niż 200 znaków."
                             data-rule-maxlength="200"
-                            class="form-control profile-description" rows="3" placeholder="Opisz się w kilku słowach...">{!! \Auth::user()->about !!}</textarea>
+                            class="form-control profile-description" rows="5" placeholder="Opisz się w kilku słowach...">{!! \Auth::user()->about !!}</textarea>
                     </div>
 
                     <div class="top-buffer">
@@ -111,17 +111,9 @@
                 </div>
             </div>
         @endif
-        <hr />
-        <div class="row">
-
-            <div class="form-group">
-                <div class="col-md-12">
-                    <form id="logout-form" action="{{ url('/logout') }}" method="POST">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-danger pull-right"><i class="fa fa-sign-out fa-fw"></i> Wyloguj</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <form id="logout-form" action="{{ url('/logout') }}" method="POST">
+            {{ csrf_field() }}
+            <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out fa-fw"></i></button>
+        </form>
     </div>
 </div>

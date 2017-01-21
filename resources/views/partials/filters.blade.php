@@ -2,11 +2,11 @@
 
     <div class="form-group form-group-sm">
         <label class="sr-only" for="nick">Nick</label>
-        <input type="text" class="form-control" id="nick" placeholder="Nick">
+        <input type="text" class="form-control" id="nick" placeholder="Nick" v-model="filters.nick" v-on:keyup="setFilters()">
     </div>
 
     <div class="form-group form-group-sm filter-region">
-        <select class="selectpicker form-control"
+        <select class="selectpicker form-control" v-model="filters.region" v-on:change="setFilters()"
                 multiple
                 data-selected-text-format="count"
                 data-count-selected-text="Województwa: {0}"
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group form-group-sm filter-target">
-        <select class="selectpicker form-control"
+        <select class="selectpicker form-control" v-model="filters.interests" v-on:change="setFilters()"
                 multiple
                 data-selected-text-format="count"
                 data-count-selected-text="Cele: {0}"
@@ -56,20 +56,20 @@
     </div>
 
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm" v-on:click="filterFemale()">Kobiety</button>
-        <input type="checkbox" class="hidden" v-model="female" />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="setFemale()">Kobiety</button>
+        <input type="checkbox" class="hidden" v-model="filters.female" />
     </span>
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm" v-on:click="filterMale()">Mężczyźni</button>
-        <input type="checkbox" class="hidden" v-model="male" />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="setMale()">Mężczyźni</button>
+        <input type="checkbox" class="hidden" v-model="filters.male" />
     </span>
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm">Ze zdjęciem</button>
-        <input type="checkbox" class="hidden" />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="setPhoto()">Ze zdjęciem</button>
+        <input type="checkbox" class="hidden" v-model="filters.photo" />
     </span>
     <span class="button-checkbox">
-        <button type="button" class="btn btn-default btn-sm">Z opisem</button>
-        <input type="checkbox" class="hidden" />
+        <button type="button" class="btn btn-default btn-sm" v-on:click="setAbout()">Z opisem</button>
+        <input type="checkbox" class="hidden" v-model="filters.about"/>
     </span>
 
     <div class="form-group form-group-sm sorting">

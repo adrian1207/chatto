@@ -5957,11 +5957,10 @@ body {
   margin-left: -250px;
   border: none;
   border-radius: 0;
-  overflow-y: auto;
   background-color: #222222;
   bottom: 0;
-  overflow-x: hidden;
-  padding-bottom: 20px; }
+  overflow: hidden;
+  padding-bottom: 60px; }
 
 @media (min-width: 1390px) {
   .side-nav {
@@ -6063,7 +6062,8 @@ body {
   width: 130px; }
 
 .profile-description {
-  resize: vertical; }
+  resize: vertical;
+  overflow: hidden; }
 
 .top-buffer {
   margin-top: 10px; }
@@ -6109,13 +6109,19 @@ body {
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
   color: #ffffff !important; }
 
+#logout-form {
+  position: absolute;
+  width: 210px;
+  left: 20px;
+  bottom: 10px; }
+
 .user-panel {
   float: left;
   position: relative;
   height: 100%;
-  width: 360px;
-  padding: 20px 30px;
-  margin: 30px 20px;
+  width: 330px;
+  padding: 20px;
+  margin: 10px;
   background-color: #fff;
   box-shadow: 3px 3px 7px -1px rgba(0, 0, 0, 0.75); }
   .user-panel .gender {
@@ -6145,5 +6151,9 @@ body {
     padding: 15px 0 0 0;
     text-align: center;
     color: #777; }
+
+.nobody h2 {
+  text-align: center;
+  margin-top: 20%; }
 
 /*# sourceMappingURL=app.css.map */

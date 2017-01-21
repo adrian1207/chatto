@@ -1,5 +1,6 @@
 window._ = require('lodash');
 window.vueIsotope = require('vueisotope');
+window.imagesLoaded = require('vue-images-loaded');
 
 /**
  * jQuery, Bootstrap 3, jQueryUI
