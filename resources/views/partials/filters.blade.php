@@ -57,19 +57,19 @@
 
     <span class="button-checkbox">
         <button type="button" class="btn btn-default btn-sm" v-on:click="setFemale()">Kobiety</button>
-        <input type="checkbox" class="hidden" v-model="filters.female" />
+        <input type="checkbox" class="hidden" checked />
     </span>
     <span class="button-checkbox">
         <button type="button" class="btn btn-default btn-sm" v-on:click="setMale()">Mężczyźni</button>
-        <input type="checkbox" class="hidden" v-model="filters.male" />
+        <input type="checkbox" class="hidden" checked/>
     </span>
     <span class="button-checkbox">
         <button type="button" class="btn btn-default btn-sm" v-on:click="setPhoto()">Ze zdjęciem</button>
-        <input type="checkbox" class="hidden" v-model="filters.photo" />
+        <input type="checkbox" class="hidden" />
     </span>
     <span class="button-checkbox">
         <button type="button" class="btn btn-default btn-sm" v-on:click="setAbout()">Z opisem</button>
-        <input type="checkbox" class="hidden" v-model="filters.about"/>
+        <input type="checkbox" class="hidden"/>
     </span>
 
     <div class="form-group form-group-sm sorting">

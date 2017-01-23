@@ -471,12 +471,15 @@ function filter (user, filters)
     }
 
     // jeżeli ma zdjęcie
-    if (filters.photo)
-        photo = user.photo != '';
+    if (filters.photo) {
+        console.log(user.about);
+        photo = (user.photo != '' && user.photo != null);
+    }
 
     //jeżeli ma opis
-    if (filters.about)
-        about = user.about != '';
+    if (filters.about) {
+        about = (user.about != '' && user.about != null);
+    }
 
     // zsumuj boole i zwróć końcowy wynik dla tego użytkownika, czy spełnia wszystkie warunki
     return (nick && region && interests && age_min && age_max && female && male && photo && about);
