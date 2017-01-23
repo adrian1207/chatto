@@ -59,11 +59,21 @@
                     "titlebar" : false,
                     "minimizeLocation" : "left",
                     "icons" : {
-                      "close" : "ui-icon-circle-close",
-                      "maximize" : "ui-icon-circle-plus",
-                      "minimize" : "ui-icon-circle-minus",
-                      "restore" : "ui-icon-bullet"
-                    }
+                      "close" : "fa fa-window-close fa-fw",
+                      "maximize" : "fa fa-window-maximize fa-fw",
+                      "minimize" : "fa fa-window-minimize fa-fw",
+                      "restore" : "fa fa-window-restore fa-fw"
+                    },
+                    "load": function(event, ui)
+                    {
+                        $('.ui-dialog-titlebar-minimize span').text('');
+                        $('.ui-dialog-titlebar-maximize span').text('');
+                        $('.ui-dialog-titlebar-restore span').text('');
+                        $('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
+                        $('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
+                        $('.ui-dialog-titlebar-restore').attr('title', 'Przywróć');
+                        $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
+                    },
               });
         }
     }
