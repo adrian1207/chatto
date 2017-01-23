@@ -101,7 +101,7 @@ class ChatController extends Controller
             $path = public_path('photos/'.$filename);
             Image::make($image->getRealPath())->save($path);
             $pathThumb = public_path('photos/thumbs/'.$filename);
-            Image::make($image->getRealPath())->resize(210, 160)->save($pathThumb);
+            Image::make($image->getRealPath())->fit(210, 160)->save($pathThumb);
             $user->photo = $filename;
         }
         else
