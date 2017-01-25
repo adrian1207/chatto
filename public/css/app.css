@@ -6161,7 +6161,9 @@ body {
   margin-top: 20%; }
 
 .ui-dialog-titlebar-close span {
-  text-indent: -4px !important; }
+  font-size: 13px !important;
+  text-indent: -2px !important;
+  padding-top: 1px; }
 
 .ui-dialog-titlebar-minimize, .ui-dialog-titlebar-maximize, .ui-dialog-titlebar-restore {
   width: 20px !important;
@@ -6173,17 +6175,107 @@ body {
 
 /* Allow Font Awesome Icons in lieu of jQuery UI and only apply when using a FA icon */
 .ui-icon {
-  /* Remove the jQuery UI Icon */
   background: none repeat scroll 0 0 transparent !important;
-  /* Remove the jQuery UI Text Indent */
-  text-indent: -2px !important; }
+  font-size: 13px !important;
+  text-indent: 0 !important;
+  padding-top: 1px; }
 
-/* Allow use of icon-large to be properly aligned */
+#dialog-extend-fixed-container .ui-icon, #dialog-extend-fixed-container .ui-dialog-titlebar-close span {
+  padding-top: 2px; }
+
 .ui-icon.icon-large {
   margin-top: -0.75em !important; }
 
 .ui-button-icon-only .ui-icon {
-  /* Bump it - jQuery UI is -8px */
   margin-left: -7px !important; }
+
+.ui-widget button {
+  font-size: 13px !important; }
+
+.ui-dialog-content {
+  padding-right: 8px !important;
+  padding-left: 8px !important; }
+
+.flexbox {
+  display: -webkit-box;
+  display: flex;
+  flex-flow: column;
+  height: 100%; }
+
+.flexbox .flexrow.header {
+  -webkit-box-flex: 0;
+  flex: 0 1 auto;
+  /* The above is shorthand for:
+  flex-grow: 0,
+  flex-shrink: 1,
+  flex-basis: auto
+  */ }
+
+.flexbox .flexrow.content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-box-flex: 1;
+  flex: 1 1 auto;
+  padding-right: 5px; }
+
+.flexbox .flexrow.footer {
+  padding: 9px 0;
+  -webkit-box-flex: 0;
+  flex: 0 1 60px; }
+
+.message-info {
+  font-size: 11px;
+  color: #777;
+  display: block;
+  text-align: center; }
+
+.message-sent {
+  position: relative;
+  display: block;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 5px 45px 5px 10px;
+  color: #fff;
+  font-size: 13px;
+  background-color: #2780e3; }
+
+.message-sent:after {
+  content: '';
+  position: absolute;
+  display: block;
+  border-style: solid;
+  border-width: 8px 0 8px 10px;
+  border-color: transparent #2780e3;
+  width: 0;
+  z-index: 1;
+  right: -10px;
+  top: 7px; }
+
+.message-received {
+  position: relative;
+  display: block;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 5px 10px 5px 45px;
+  font-size: 13px;
+  background-color: #F2F2F2; }
+
+.message-received:after {
+  content: '';
+  position: absolute;
+  display: block;
+  border-style: solid;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent #F2F2F2;
+  width: 0;
+  z-index: 1;
+  left: -10px;
+  top: 7px; }
+
+.message-received-photo {
+  float: left; }
+
+.message-sent-photo {
+  float: right; }
 
 /*# sourceMappingURL=app.css.map */

@@ -77,7 +77,9 @@ class ChatController extends Controller
      */
     public function message(Request $request)
     {
-        broadcast((new MessageEvent($request->get('channel'), $request->get('message'))))->toOthers();
+        if (!empty($request->get('message'))) {
+            broadcast((new MessageEvent($request->get('channel'), $request->get('message'))))->toOthers();
+        }
     }
 
     /**
@@ -96,13 +98,18 @@ class ChatController extends Controller
 
         if ($request->hasFile('photo'))
         {
+            // zapisanie zdjęcia
             $image = $request->file('photo');
             $filename  = time().'.'.$image->getClientOriginalExtension();
             $path = public_path('photos/'.$filename);
             Image::make($image->getRealPath())->save($path);
+            $user->photo = $filename;
+
+            // wygenerowanie miniatur
             $pathThumb = public_path('photos/thumbs/'.$filename);
             Image::make($image->getRealPath())->fit(210, 160)->save($pathThumb);
-            $user->photo = $filename;
+            $pathMini = public_path('photos/mini/'.$filename);
+            Image::make($image->getRealPath())->fit(30, 30)->save($pathMini);
         }
         else
         {
