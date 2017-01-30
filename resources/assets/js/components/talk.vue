@@ -97,13 +97,13 @@
                     },
                     "load": function(event, ui)
                     {
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-minimize span').text('');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-maximize span').text('');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-restore span').text('');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
-                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
+                        $('.ui-dialog-titlebar-minimize span').text('');
+                        $('.ui-dialog-titlebar-maximize span').text('');
+                        $('.ui-dialog-titlebar-restore span').text('');
+                        $('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
+                        $('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
+                        $('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
+                        $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
                     },
               });
 

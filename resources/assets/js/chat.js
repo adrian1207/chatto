@@ -63,6 +63,11 @@ var chatApp = new Vue({
         echoPrivate: function(channel, sender, recipient)
         {
             Echo.join(channel)
+                .here((users) => {
+                    if (typeof this.talks[channel] !== 'undefined' && users.length == 2) {
+                        this.talks[channel].members.partnerOnline = true;
+                    }
+                })
                 .joining((user) => {
                     if (typeof this.talks[channel] !== 'undefined') {
                         this.talks[channel].members.partnerOnline = true;
