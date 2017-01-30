@@ -67,7 +67,7 @@
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Spotkania', \Auth::user()->interests)) ? 'selected':'' !!}>Spotkania</option>
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Związku', \Auth::user()->interests)) ? 'selected':'' !!}>Związku</option>
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Przyjaźni', \Auth::user()->interests)) ? 'selected':'' !!}>Przyjaźni</option>
-                            <option {!! (is_array(\Auth::user()->interests) && in_array('Seksu', \Auth::user()->interests)) ? 'selected':'' !!}>Seksu</option>
+                            <!--<option {!! (is_array(\Auth::user()->interests) && in_array('Seksu', \Auth::user()->interests)) ? 'selected':'' !!}>Seksu</option>-->
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Niczego', \Auth::user()->interests)) ? 'selected':'' !!}>Niczego</option>
                         </select>
                     </div>
