@@ -64,13 +64,20 @@ var chatApp = new Vue({
         {
             Echo.join(channel)
                 .joining((user) => {
-                    this.talks[channel].messages.push({content: 'Dołączył: '+user.nick, type: 'info'});
+                    if (typeof this.talks[channel] !== 'undefined') {
+                        this.talks[channel].members.partnerOnline = true;
+                        this.talks[channel].messages.push({content: user.nick+' dołączył do rozmowy prywatnej', type: 'info'});
+                    }
                 })
                 .leaving((user) => {
-                    this.talks[channel].messages.push({content: 'Opuścił: '+user.nick, type: 'info'});
+                    if (typeof this.talks[channel] !== 'undefined') {
+                        this.talks[channel].members.partnerOnline = false;
+                        this.talks[channel].messages.push({content: user.nick+' opuścił rozmowę prywatną', type: 'info'});
+                    }
                 })
                 .listen('MessageEvent', (message) => {
                     this.privateOpen(sender, recipient);
+                    this.talks[channel].members.partnerOnline = true;
                     this.talks[channel].messages.push({content: message.message, type: 'received'});
                 });
         },
@@ -101,7 +108,10 @@ var chatApp = new Vue({
         {
             var channel = setChannelName(sender, recipient);
 
-            this.echoPrivate(channel, sender, recipient);
+            if ((sender == this.user_id || recipient == this.user_id) && !this.talks[channel])
+            {
+                this.echoPrivate(channel, sender, recipient);
+            }
         },
 
         /**
@@ -392,9 +402,9 @@ function setMembers(users, me, sender, recipient)
     var recipientIndex = users.map(function(usr) { return usr.id; }).indexOf(recipient);
 
     if (me == sender)
-        return {'me': users[senderIndex], 'guest': users[recipientIndex]};
+        return {'me': users[senderIndex], 'guest': users[recipientIndex], 'partnerOnline': false};
     if (me == recipient)
-        return {'me': users[recipientIndex], 'guest': users[senderIndex]};
+        return {'me': users[recipientIndex], 'guest': users[senderIndex], 'partnerOnline': false};
 }
 
 /**

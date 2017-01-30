@@ -7,7 +7,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <title>{{ config('app.name') }} - czat inny niż wszystkie</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">

@@ -1,5 +1,5 @@
 <template>
-    <div :id="channel" :title="members.guest.nick" style="position: relative">
+    <div :id="channel" :title="title" style="position: relative">
         <div class="flexbox">
             <div class="flexrow content messagebox">
                 <div v-for="message in messages">
@@ -21,7 +21,7 @@
             <div class="flexrow footer">
                 <form v-on:submit.prevent='send'>
                     <div class="input-group">
-                        <input v-model="message" type="text" name="message" class="form-control" placeholder="Wiadomość..." required>
+                        <input v-model="message" type="text" name="message" class="form-control" placeholder="Wiadomość..." :disabled="!members.partnerOnline" required autocomplete="off">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="sumbit"><i class="fa fa-send"></i></button>
                         </span>
@@ -36,11 +36,18 @@
     export default {
         props: ['channel', 'messages', 'members'],
         data: function() {
-            return {message: ''}
+            return {
+                message: '',
+                title: this.members.guest.nick,
+                minimized: false
+            }
         },
         methods: {
             send: function()
             {
+                if (this.message == '')
+                    return false;
+
                 var message = this.message;
                 this.$http.post('/chat/message', {channel: this.channel, message: message});
                 this.$parent.talks[this.channel].messages.push({content: message, type: 'sent'});
@@ -48,7 +55,8 @@
             }
         },
         watch: {
-            messages: function () {
+            messages: function (msgs)
+            {
                 $('#'+this.channel+' .messagebox').stop().animate({
                   scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
                 }, 800);
@@ -68,28 +76,34 @@
                     }
                 })
                 .dialogExtend({
-                    "closable" : true,
-                    "maximizable" : true,
-                    "minimizable" : true,
-                    "collapsable" : false,
-                    "dblclick" : "minimize",
-                    "titlebar" : false,
-                    "minimizeLocation" : "left",
-                    "icons" : {
-                      "close" : "fa fa-window-close fa-fw",
-                      "maximize" : "fa fa-window-maximize fa-fw",
-                      "minimize" : "fa fa-window-minimize fa-fw",
-                      "restore" : "fa fa-window-restore fa-fw"
+                    "closable": true,
+                    "maximizable": true,
+                    "minimizable": true,
+                    "collapsable": false,
+                    "dblclick": "minimize",
+                    "titlebar": false,
+                    "minimizeLocation": "left",
+                    "icons": {
+                      "close": "fa fa-window-close fa-fw",
+                      "maximize": "fa fa-window-maximize fa-fw",
+                      "minimize": "fa fa-window-minimize fa-fw",
+                      "restore": "fa fa-window-restore fa-fw"
+                    },
+                    "beforeMinimize":  function (event) {
+                        $vue.minimized = true;
+                    },
+                    "beforeRestore":  function (event) {
+                        $vue.minimized = false;
                     },
                     "load": function(event, ui)
                     {
-                        $('.ui-dialog-titlebar-minimize span').text('');
-                        $('.ui-dialog-titlebar-maximize span').text('');
-                        $('.ui-dialog-titlebar-restore span').text('');
-                        $('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
-                        $('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
-                        $('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
-                        $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-minimize span').text('');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-maximize span').text('');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-restore span').text('');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
+                        $('#'+$vue.channel).prev().find('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
                     },
               });
 
