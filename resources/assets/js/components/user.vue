@@ -29,7 +29,7 @@
 
         <div v-if="self == user.id">
             <hr />
-            <button class="btn btn-default btn-block" disabled>Twoja wizytówka</button>
+            <button class="btn btn-default btn-block" disabled>Twój profil</button>
         </div>
     </div>
 </template>

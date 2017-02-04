@@ -69,20 +69,27 @@ var chatApp = new Vue({
          */
         echoPrivate: function(channel, sender, recipient)
         {
+            var verb;
+
             Echo.join(channel)
                 .here((users) => {
                     if (typeof this.talks[channel] !== 'undefined' && users.length == 2)
-                        this.talks[channel].messages.push({content: users[1].nick+' dołączył do rozmowy prywatnej', type: 'info'});
+                    {
+                        if (users[1].gender) {verb = 'wróciła'} else {verb = 'wrócił'}
+                        this.talks[channel].messages.push({content: users[1].nick+' '+verb+' do rozmowy', type: 'info'});
+                    }
                 })
                 .joining((user) => {
+                    if (user.gender) {verb = 'dołączyła'} else {verb = 'dołączył'}
                     if (typeof this.talks[channel] !== 'undefined')
-                        this.talks[channel].messages.push({content: user.nick+' dołączył do rozmowy prywatnej', type: 'info'});
+                        this.talks[channel].messages.push({content: user.nick+' '+verb+' do rozmowy', type: 'info'});
 
                     this.partners.push(user.id)
                 })
                 .leaving((user) => {
+                    if (user.gender) {verb = 'opuściła'} else {verb = 'opuścił'}
                     if (typeof this.talks[channel] !== 'undefined')
-                        this.talks[channel].messages.push({content: user.nick+' opuścił rozmowę prywatną', type: 'info'});
+                        this.talks[channel].messages.push({content: user.nick+' '+verb+' rozmowę', type: 'info'});
 
                     removeFromArray(this.partners, user.id);
                     Echo.leave(channel);

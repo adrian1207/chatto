@@ -82,6 +82,11 @@
                 .dialog({
                     "height": 500,
                     "width": 500,
+                    "beforeClose": function(event, ui)
+                    {
+                        if (!$vue.connected)
+                            return false;
+                    },
                     "close": function(event, ui)
                     {
                         clearInterval(hourIntervalId);
