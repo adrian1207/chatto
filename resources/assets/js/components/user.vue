@@ -17,19 +17,42 @@
         <div class="about" v-if="user.about">
             {{ user.about }}
         </div>
-        <div v-if="self != user.id">
+        <div v-if="self != user.id && !connected">
             <hr />
-            <button class="btn btn-default btn-block" v-on:click="invite">Porozmawiaj</button>
+            <button class="invite btn btn-default btn-block" v-on:click="invite($event)">{{ buttonText }}</button>
+        </div>
+
+        <div v-if="self != user.id && connected">
+            <hr />
+            <button class="btn btn-default btn-block" disabled>Rozmowa połączona</button>
+        </div>
+
+        <div v-if="self == user.id">
+            <hr />
+            <button class="btn btn-default btn-block" disabled>Twoja wizytówka</button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['user', 'self'],
+        props: ['user', 'self', 'connected'],
+        data: function() {
+            return {
+                buttonText: 'Rozmawiaj'
+            }
+        },
         methods: {
-            invite: function (id) {
+            invite: function (event) {
+                $(event.target).attr('disabled', true);
+                this.buttonText = 'Łączenie...';
                 this.$emit('invite')
+            }
+        },
+        watch: {
+            connected: function ()
+            {
+                this.buttonText = 'Rozmawiaj';
             }
         }
     }

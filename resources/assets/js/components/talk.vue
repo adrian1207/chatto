@@ -21,7 +21,7 @@
             <div class="flexrow footer">
                 <form v-on:submit.prevent='send'>
                     <div class="input-group">
-                        <input v-model="message" type="text" name="message" class="form-control" placeholder="Wiadomość..." :disabled="!members.partnerOnline" required autocomplete="off">
+                        <input v-model="message" type="text" name="message" maxlength="1000" class="form-control" :disabled="!connected" placeholder="Wiadomość..." required autocomplete="off">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="sumbit"><i class="fa fa-send"></i></button>
                         </span>
@@ -34,7 +34,7 @@
 
 <script>
     export default {
-        props: ['channel', 'messages', 'members'],
+        props: ['channel', 'messages', 'members', 'connected'],
         data: function() {
             return {
                 message: '',
@@ -72,7 +72,8 @@
                     "width": 500,
                     "close": function(event, ui)
                     {
-                        $vue.$parent.privateExit($vue.channel);
+                        clearInterval(hourIntervalId);
+                        $vue.$parent.privateExit($vue.channel, $vue.members.guest.id);
                     }
                 })
                 .dialogExtend({
@@ -108,22 +109,16 @@
               });
 
               // Godzina wyświetlana co 5min w oknie rozmowy
-              setInterval(function() {
+              var hourIntervalId = setInterval(function()
+              {
                 var date = new Date();
                 var dateFormatted =  "Godzina: "+date.getHours()+":"+date.getFullMinutes();
+
                 if (typeof $vue.$parent.talks[$vue.channel] !== "undefined")
                 {
                     $vue.$parent.talks[$vue.channel].messages.push({content: dateFormatted, type: 'info'})
                 }
               }, 300000);
-
-              // Minuty
-              Date.prototype.getFullMinutes = function () {
-                   if (this.getMinutes() < 10) {
-                       return '0' + this.getMinutes();
-                   }
-                   return this.getMinutes();
-                };
         }
     }
 </script>

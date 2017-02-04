@@ -24,10 +24,17 @@ Vue.directive('imagesLoaded', window.imagesLoaded);
 var chatApp = new Vue({
     el: '#chat',
     data: {
+        // Id użytkownika z meta
         user_id: null,
+        // Lista użytkowników czatu
         users: [],
+        // Lista rozmówców
+        partners: [],
+        // Lista aktywnych rozmów
         talks: {},
+        // Flaga braku użytkowników
         nobody: false,
+        // Tablica filtrów
         filters: {}
     },
     methods: {
@@ -45,7 +52,7 @@ var chatApp = new Vue({
                     this.users.push(user);
                 })
                 .leaving((user) => {
-                    var index = this.users.map(function(usr) { return usr.id; }).indexOf(user.id);
+                    var index = getUserIndex(this.users, user.id);
                     this.users.splice(index, 1);
                 })
                 .listen('InvitationEvent', (participants) => {
@@ -64,25 +71,26 @@ var chatApp = new Vue({
         {
             Echo.join(channel)
                 .here((users) => {
-                    if (typeof this.talks[channel] !== 'undefined' && users.length == 2) {
-                        this.talks[channel].members.partnerOnline = true;
-                    }
+                    if (typeof this.talks[channel] !== 'undefined' && users.length == 2)
+                        this.talks[channel].messages.push({content: users[1].nick+' dołączył do rozmowy prywatnej', type: 'info'});
                 })
                 .joining((user) => {
-                    if (typeof this.talks[channel] !== 'undefined') {
-                        this.talks[channel].members.partnerOnline = true;
+                    if (typeof this.talks[channel] !== 'undefined')
                         this.talks[channel].messages.push({content: user.nick+' dołączył do rozmowy prywatnej', type: 'info'});
-                    }
+
+                    this.partners.push(user.id)
                 })
                 .leaving((user) => {
-                    if (typeof this.talks[channel] !== 'undefined') {
-                        this.talks[channel].members.partnerOnline = false;
+                    if (typeof this.talks[channel] !== 'undefined')
                         this.talks[channel].messages.push({content: user.nick+' opuścił rozmowę prywatną', type: 'info'});
-                    }
+
+                    removeFromArray(this.partners, user.id);
+                    Echo.leave(channel);
                 })
                 .listen('MessageEvent', (message) => {
-                    this.privateOpen(sender, recipient);
-                    this.talks[channel].members.partnerOnline = true;
+                    if (!this.talks[channel])
+                        this.privateOpen(sender, recipient);
+
                     this.talks[channel].messages.push({content: message.message, type: 'received'});
                 });
         },
@@ -95,9 +103,6 @@ var chatApp = new Vue({
          */
         eventInvite: function(sender, recipient)
         {
-            if (sender == recipient)
-                return false;
-
             this.privateConnect(sender, recipient);
             this.privateOpen(sender, recipient);
             this.$http.post('/chat/invite', {sender: sender, recipient: recipient});
@@ -113,8 +118,12 @@ var chatApp = new Vue({
         {
             var channel = setChannelName(sender, recipient);
 
-            if ((sender == this.user_id || recipient == this.user_id) && !this.talks[channel])
+            if (this.user_id == sender || this.user_id == recipient)
             {
+                // Dodanie do listy partnerów
+                if (this.user_id == recipient) { this.partners.push(sender) }
+
+                // Połączenie do kanału prywatnego
                 this.echoPrivate(channel, sender, recipient);
             }
         },
@@ -130,8 +139,9 @@ var chatApp = new Vue({
             var channel = setChannelName(sender, recipient);
             var members = setMembers(this.users, this.user_id, sender, recipient);
 
-            if ((sender == this.user_id || recipient == this.user_id) && !this.talks[channel])
+            if (this.user_id == sender || this.user_id == recipient)
             {
+                // Stworzenie obiektu rozmowy
                 this.$set(this.talks, channel, {messages: [], members: members});
             }
         },
@@ -140,11 +150,25 @@ var chatApp = new Vue({
          * Opuszczenie kanału prywatnego
          *
          * @param channel
+         * @param partnerId
          */
-        privateExit: function(channel)
+        privateExit: function(channel, partnerId)
         {
             Echo.leave(channel);
             this.$delete(this.talks, channel);
+            removeFromArray(this.partners, partnerId);
+        },
+
+        /**
+         * Przekazanie inArray z Vue do funkcji
+         * 
+         * @param array
+         * @param element
+         * @returns {boolean}
+         */
+        inArray: function(array, element)
+        {
+            return inArray(array, element);
         },
 
         /**
@@ -229,6 +253,11 @@ var chatApp = new Vue({
     }
 });
 
+/**
+ * Aplikacja filtrów
+ *
+ * @type {Vue$2}
+ */
 var filtersApp = new Vue({
     el: '#filters',
     data: {
@@ -403,13 +432,51 @@ function setChannelName(sender, recipient)
  */
 function setMembers(users, me, sender, recipient)
 {
-    var senderIndex = users.map(function(usr) { return usr.id; }).indexOf(sender);
-    var recipientIndex = users.map(function(usr) { return usr.id; }).indexOf(recipient);
+    var senderIndex = getUserIndex(users, sender);
+    var recipientIndex = getUserIndex(users, recipient);
 
     if (me == sender)
-        return {'me': users[senderIndex], 'guest': users[recipientIndex], 'partnerOnline': false};
+        return {'me': users[senderIndex], 'guest': users[recipientIndex]};
     if (me == recipient)
-        return {'me': users[recipientIndex], 'guest': users[senderIndex], 'partnerOnline': false};
+        return {'me': users[recipientIndex], 'guest': users[senderIndex]};
+}
+
+/**
+ * Pobranie indeksu w tablicy userów po id użytkownika
+ *
+ * @param users
+ * @param id
+ * @returns {number|Number|*}
+ */
+function getUserIndex(users, id)
+{
+    return users.map(function (usr) {
+        return usr.id;
+    }).indexOf(id);
+}
+
+/**
+ * Usunięcie z tablicy po wartości
+ *
+ * @param array
+ * @param element
+ */
+function removeFromArray(array, element)
+{
+    var index = _.indexOf(array, element);
+    array.splice(index, 1);
+}
+
+/**
+ * Sprawdzenie czy element znajduje się w tablicy
+ *
+ * @param array
+ * @param element
+ * @returns {boolean}
+ */
+function inArray(array, element)
+{
+    return _.indexOf(array, element) != -1;
 }
 
 /**
@@ -627,3 +694,16 @@ function showingAlert(hideAdditionalElements)
 
     }, 3000);
 }
+
+/**
+ * Popranie minut z zerami poprzedzajacymi
+ *
+ * @returns {*}
+ */
+Date.prototype.getFullMinutes = function ()
+{
+    if (this.getMinutes() < 10)
+        return '0' + this.getMinutes();
+
+    return this.getMinutes();
+};

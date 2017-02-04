@@ -1,6 +1,10 @@
 <?php
 
 Route::get('/', 'LoginController@index');
+Route::get('login', function () {
+    return redirect('/');
+});
+
 Route::post('login', 'LoginController@switcher');
 Route::post('logout', 'LoginController@logout');
 
