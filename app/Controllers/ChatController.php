@@ -69,6 +69,11 @@ class ChatController extends Controller
      */
     public function invite(Request $request)
     {
+        Validator::make($request->all(), [
+            'sender' => 'integer',
+            'recipient' => 'integer'
+        ])->validate();
+
         broadcast((new InvitationEvent($request->get('sender'), $request->get('recipient'))))->toOthers();
     }
 
@@ -77,6 +82,10 @@ class ChatController extends Controller
      */
     public function message(Request $request)
     {
+        Validator::make($request->all(), [
+            'message' => 'max:1000'
+        ])->validate();
+
         if (!empty($request->get('message'))) {
             broadcast((new MessageEvent($request->get('channel'), $request->get('message'))))->toOthers();
         }

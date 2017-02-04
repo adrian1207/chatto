@@ -65,11 +65,11 @@ class LoginController extends Controller
         if ($reserved)
         {
             return Validator::make($data, [
-                'nick' => 'required|min:4|max:24',
+                'nick' => 'required|min:4|max:16',
                 'password' => 'required|min:4|max:64',
             ], [
                 'nick.min' => 'Nick powinien być dłuższy niż 4 znaki.',
-                'nick.max' => 'Nick powinien być krótszy niż 24 znaki.',
+                'nick.max' => 'Nick powinien być krótszy niż 16 znaków.',
                 'password.required' => 'Zaznaczyłeś, że masz zarezerwowany nick. Podaj hasło.',
                 'password.min' => 'Hasło musi być dłuższe niż 4 znaki.',
                 'password.max' => 'Hasło musi być krótsze niż 64 znaki.',
@@ -78,11 +78,11 @@ class LoginController extends Controller
         else
         {
             return Validator::make($data, [
-                'nick' => 'unique:users|required|min:4|max:24',
+                'nick' => 'unique:users|required|min:4|max:16',
                 'gender' => 'required',
             ], [
                 'nick.min' => 'Nick musi być dłuższy niż 4 znaki.',
-                'nick.max' => 'Nick musi być krótszy niż 24 znaki.',
+                'nick.max' => 'Nick musi być krótszy niż 16 znaków.',
                 'gender.required' => 'Podanie płci jest wymagane.',
             ]);
         }
