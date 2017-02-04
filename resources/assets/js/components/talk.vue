@@ -33,6 +33,8 @@
 </template>
 
 <script>
+    var blinkIntervalId = {};
+
     export default {
         props: ['channel', 'messages', 'members', 'connected'],
         data: function() {
@@ -60,6 +62,16 @@
                 $('#'+this.channel+' .messagebox').stop().animate({
                   scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
                 }, 800);
+
+                if (this.minimized)
+                {
+                    var $vue = this;
+
+                    $('#dialog-extend-fixed-container .ui-dialog[aria-describedby="'+$vue.channel+'"] .ui-dialog-titlebar').effect("highlight", {}, 3000);
+                    blinkIntervalId[$vue.channel] = setInterval(function() {
+                        $('#dialog-extend-fixed-container .ui-dialog[aria-describedby="'+$vue.channel+'"] .ui-dialog-titlebar').effect("highlight", {}, 3000);
+                    }, 3200);
+                }
             }
         },
         mounted: function()
@@ -95,6 +107,7 @@
                     },
                     "beforeRestore":  function (event) {
                         $vue.minimized = false;
+                        clearInterval(blinkIntervalId[$vue.channel]);
                     },
                     "load": function(event, ui)
                     {
@@ -106,7 +119,7 @@
                         $('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
                         $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
                     },
-              });
+              }).prev(".ui-dialog-titlebar").css("background-color","#2780e3");
 
               // Godzina wyświetlana co 5min w oknie rozmowy
               var hourIntervalId = setInterval(function()
@@ -114,7 +127,7 @@
                 var date = new Date();
                 var dateFormatted =  "Godzina: "+date.getHours()+":"+date.getFullMinutes();
 
-                if (typeof $vue.$parent.talks[$vue.channel] !== "undefined")
+                if (typeof $vue.$parent.talks[$vue.channel] !== "undefined" && !$vue.minimized)
                 {
                     $vue.$parent.talks[$vue.channel].messages.push({content: dateFormatted, type: 'info'})
                 }

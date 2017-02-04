@@ -6044,8 +6044,7 @@ body {
 .ui-slider-range {
   background: #2780E3 !important; }
 
-.ui-widget-header {
-  background-color: #2780e3 !important;
+.ui-dialog-titlebar {
   color: #fff !important; }
 
 .navbar-brand {
