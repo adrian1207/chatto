@@ -41,7 +41,8 @@
             return {
                 message: '',
                 title: this.members.guest.nick,
-                minimized: false
+                minimized: false,
+                closable: false
             }
         },
         methods: {
@@ -59,6 +60,8 @@
         watch: {
             messages: function (msgs)
             {
+                this.closable = true;
+
                 $('#'+this.channel+' .messagebox').stop().animate({
                   scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
                 }, 800);
@@ -84,7 +87,7 @@
                     "width": 500,
                     "beforeClose": function(event, ui)
                     {
-                        if (!$vue.connected)
+                        if (!$vue.closable)
                             return false;
                     },
                     "close": function(event, ui)
