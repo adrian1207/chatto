@@ -6097,6 +6097,9 @@ body {
   width: 220px;
   height: 170px; }
 
+.thumbnail {
+  border-radius: 90px; }
+
 .fileinput-new .thumbnail.male {
   background: url("../images/avatar_male.png") no-repeat center center #fff; }
 
