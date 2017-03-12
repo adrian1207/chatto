@@ -83,19 +83,21 @@
 
             var width = 500;
             var height = 500;
-            var maximizable = true;
+            var mobile = false;
 
             if (window.innerWidth < 768)
             {
                 width = window.innerWidth;
                 height = window.innerHeight;
-                maximizable = false;
+                mobile = true;
             }
 
             $('#'+$vue.channel)
                 .dialog({
                     "height": height,
                     "width": width,
+                    "resizable": !mobile,
+                    "draggable": !mobile,
                     "beforeClose": function(event, ui)
                     {
                         if (!$vue.closable)
@@ -109,7 +111,7 @@
                 })
                 .dialogExtend({
                     "closable": true,
-                    "maximizable": maximizable,
+                    "maximizable": !mobile,
                     "minimizable": true,
                     "collapsable": false,
                     "dblclick": "minimize",

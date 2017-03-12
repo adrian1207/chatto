@@ -24,7 +24,8 @@ elixir(mix => {
             '../bower/jasny-bootstrap/dist/js/jasny-bootstrap.min.js',
             '../bower/jquery-validation/dist/jquery.validate.min.js',
             '../bower/jquery-validation/dist/additional-methods.min.js',
-            '../bower/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js'
+            '../bower/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js',
+            '../bower/jqueryui-touch-punch/jquery.ui.touch-punch.min.js'
         ])
         .copy('resources/assets/bower/jquery-ui/themes/base/images', 'public/css/images')
         .copy('resources/assets/images', 'public/images')

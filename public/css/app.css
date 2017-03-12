@@ -5958,7 +5958,9 @@ body {
     padding-left: 0px; }
   .side-nav {
     width: 100%;
-    z-index: 10000; } }
+    z-index: 10000; }
+  .navbar-brand {
+    width: 240px !important; } }
 
 .login {
   margin-top: 50px;

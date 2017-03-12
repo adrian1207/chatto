@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 $(document).ready(function() {
-    setTimeout(structure, 300);
+    setTimeout(structure, 500);
 });
 
 $(window).resize(function() {
