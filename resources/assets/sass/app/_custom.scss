@@ -7,22 +7,26 @@
 .ui-dialog-titlebar {
   color: #fff !important;
 }
+.navbar-toggle {
+  color: #fff;
+}
 .navbar-brand {
-  width: 250px;
+  width: 281px;
 }
 .filters {
-  padding: 10px 0;
+  padding: 9px 0;
 }
+
+.filters > div, .filters > span {
+  margin: 1px;
+  display: inline-block;
+  float: left;
+}
+
 .age-range {
   display: inline-block;
   width: 180px;
   margin: 0 8px;
-}
-.filter-region {
-  width: 160px;
-}
-.filter-target {
-  width: 130px;
 }
 .profile-description {
   resize: vertical;
@@ -60,6 +64,10 @@
 .thumbnail {
   border-radius: 90px;
 }
+.fileinput {
+  width: 100%;
+  text-align: center;
+}
 .fileinput-new {
   .thumbnail.male {
     background: url('../images/avatar_male.png') no-repeat center center #fff;
@@ -75,13 +83,6 @@
 .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
 .bootstrap-select > .dropdown-toggle.bs-placeholder:active { color: #ffffff !important; }
-
-#logout-form {
-  position: absolute;
-  width: 210px;
-  left: 20px;
-  bottom: 10px;
-}
 
 .user-panel {
   float: left;

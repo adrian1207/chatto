@@ -44,7 +44,7 @@
             <option>Spotkania</option>
             <option>Związku</option>
             <option>Przyjaźni</option>
-            <!--<option>Seksu</option>-->
+            <option>Przygody</option>
             <option>Niczego</option>
         </select>
     </div>

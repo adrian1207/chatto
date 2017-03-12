@@ -40,7 +40,7 @@ class ChatController extends Controller
     private $interests = [
         'Luźnej rozmowy',
         'Spotkania',
-        'Seksu',
+        'Przygody',
         'Związku',
         'Przyjaźni',
         'Niczego',

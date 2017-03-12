@@ -67,7 +67,7 @@
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Spotkania', \Auth::user()->interests)) ? 'selected':'' !!}>Spotkania</option>
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Związku', \Auth::user()->interests)) ? 'selected':'' !!}>Związku</option>
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Przyjaźni', \Auth::user()->interests)) ? 'selected':'' !!}>Przyjaźni</option>
-                            <!--<option {!! (is_array(\Auth::user()->interests) && in_array('Seksu', \Auth::user()->interests)) ? 'selected':'' !!}>Seksu</option>-->
+                            <option {!! (is_array(\Auth::user()->interests) && in_array('Przygody', \Auth::user()->interests)) ? 'selected':'' !!}>Przygody</option>
                             <option {!! (is_array(\Auth::user()->interests) && in_array('Niczego', \Auth::user()->interests)) ? 'selected':'' !!}>Niczego</option>
                         </select>
                     </div>
@@ -97,7 +97,7 @@
                     <div class="reserving" v-if="!reserved">
                         <form class="form-horizontal" role="reserve" v-on:submit.prevent='reserve($event)'>
                             <div class="top-buffer">
-                                <input type="password" class="form-control" name="password" data-msg-minlength="Hasło musi mieć minimum 4 znaki."
+                                <input type="password" class="form-control" name="password" required data-msg-minlength="Hasło musi mieć minimum 4 znaki."
                                        data-rule-minlength="4" placeholder="Hasło rezerwacji" />
                             </div>
                             <div class="top-buffer">
@@ -111,9 +111,11 @@
                 </div>
             </div>
         @endif
-        <form id="logout-form" action="{{ url('/logout') }}" method="POST">
-            {{ csrf_field() }}
-            <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out fa-fw"></i></button>
-        </form>
+        <div class="top-buffer">
+            <form id="logout-form" action="{{ url('/logout') }}" method="POST">
+                {{ csrf_field() }}
+                <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out fa-fw"></i></button>
+            </form>
+        </div>
     </div>
 </div>

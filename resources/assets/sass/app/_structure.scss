@@ -1,17 +1,10 @@
 // Odstępy na pasek z góry
 body {
   background-color: #F2F2F2;
-  margin-top: 95px;
-}
-
-@media(min-width:1390px) {
-  body {
-    margin-top: 60px;
-  }
 }
 
 #wrapper {
-  padding-left: 250px;
+  padding-left: 281px;
 
   #page-wrapper {
     width: 100%;
@@ -22,21 +15,20 @@ body {
 
 .side-nav {
   position: fixed;
-  top: 80px;
-  left: 250px;
-  width: 250px;
-  margin-left: -250px;
-  border: none;
-  border-radius: 0;
-  background-color: $gray-darker;
+  left: 0;
   bottom: 0;
-  overflow: hidden;
-  padding-bottom: 60px;
+  width: 281px;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  background-color: $gray-darker;
 }
 
-@media(min-width:1390px) {
+@media(max-width:$screen-md) {
+  #wrapper {
+    padding-left: 0px;
+  }
   .side-nav {
-    position: fixed;
-    top: 50px;
+    width: 100%;
+    z-index: 10000;
   }
 }

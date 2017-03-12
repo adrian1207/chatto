@@ -28,23 +28,25 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name') }}
                 </a>
-                {{-- Przycik hamburgera --}}
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Filtry</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                {{-- Przycik filtrów --}}
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#filter-navbar-collapse">
+                    <i class="fa fa-filter fa-fw" aria-hidden="true"></i>
+                </button>
+
+                {{-- Przycik sidebaru --}}
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#profile-navbar-collapse">
+                    <i class="fa fa-user fa-fw" aria-hidden="true"></i>
                 </button>
             </div>
 
-            {{-- Wyszukiwarka --}}
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
+            {{-- Filtry --}}
+            <div class="collapse navbar-collapse" id="filter-navbar-collapse">
                 @include('partials.filters')
             </div>
         </nav>
 
         {{-- Sidebar --}}
-        <div class="side-nav">
+        <div class="collapse navbar-collapse side-nav" id="profile-navbar-collapse">
             @include('partials.sidebar')
         </div>
 

@@ -81,10 +81,21 @@
         {
             var $vue = this;
 
+            var width = 500;
+            var height = 500;
+            var maximizable = true;
+
+            if (window.innerWidth < 768)
+            {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                maximizable = false;
+            }
+
             $('#'+$vue.channel)
                 .dialog({
-                    "height": 500,
-                    "width": 500,
+                    "height": height,
+                    "width": width,
                     "beforeClose": function(event, ui)
                     {
                         if (!$vue.closable)
@@ -98,7 +109,7 @@
                 })
                 .dialogExtend({
                     "closable": true,
-                    "maximizable": true,
+                    "maximizable": maximizable,
                     "minimizable": true,
                     "collapsable": false,
                     "dblclick": "minimize",
