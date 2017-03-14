@@ -107,7 +107,7 @@
                         </form>
                     </div>
                     <div class="alert alert-success" v-else>
-                        <strong>Zarezerwowano!</strong> Dziękujemy za rejestrację nicku.
+                        <strong>Zarezerwowano!</strong> Od teraz Twój nick jest zajęty pod tym hasłem.
                     </div>
                 </div>
             </div>

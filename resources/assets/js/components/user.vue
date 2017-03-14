@@ -29,7 +29,6 @@
 
         <div v-if="self == user.id">
             <hr />
-            <button class="btn btn-default btn-block" disabled>Ty</button>
         </div>
     </div>
 </template>

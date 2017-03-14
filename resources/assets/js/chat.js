@@ -371,8 +371,8 @@ var profileApp = new Vue({
                 .then((response) => {
                     $vue.changed = !response.ok;
                     $vue.updated = response.ok;
-                    showingAlert(false);
 
+                    $(".side-nav").effect("highlight", { color: "#3FB618" }, 1500)
                     chatApp.echoGlobal();
             });
         },
@@ -690,16 +690,14 @@ $(function()
 /**
  * Ukrycie po czasie aleru pokazanego przez Vue
  */
-function showingAlert(hideAdditionalElements)
+function showingAlert()
 {
     window.setTimeout(function()
     {
         $('.alert').fadeTo(500, 0).slideUp(500);
+        $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
 
-        if (hideAdditionalElements)
-            $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
-
-    }, 3000);
+    }, 5000);
 }
 
 /**
