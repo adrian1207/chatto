@@ -372,7 +372,7 @@ var profileApp = new Vue({
                     $vue.changed = !response.ok;
                     $vue.updated = response.ok;
 
-                    $(".side-nav").effect("highlight", { color: "#3FB618" }, 1500)
+                    savingBlink($(".side-nav"));
                     chatApp.echoGlobal();
             });
         },
@@ -400,7 +400,7 @@ var profileApp = new Vue({
             this.$http.post('/chat/reserve', new FormData(event.target))
                 .then((response) => {
                     $vue.reserved = response.ok;
-                    showingAlert(true);
+                    showingAlert();
             });
         }
     },
@@ -695,9 +695,16 @@ function showingAlert()
     window.setTimeout(function()
     {
         $('.alert').fadeTo(500, 0).slideUp(500);
-        $('.delAfterAlert').fadeTo(500, 0).slideUp(500)
-
+        $('.delAfterAlert').fadeTo(500, 0).slideUp(500);
     }, 5000);
+}
+
+/**
+ * Mignięcie na zielono elementu jquery
+ */
+function savingBlink(jqelement)
+{
+    jqelement.effect("highlight", { color: "#3FB618" }, 1500);
 }
 
 /**

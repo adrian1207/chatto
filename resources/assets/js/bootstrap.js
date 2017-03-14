@@ -8,7 +8,6 @@ window.imagesLoaded = require('vue-images-loaded');
 window.$ = window.jQuery = require('jquery');
 require('bootstrap-sass');
 require('jquery-ui/ui/widgets/dialog');
-// require('debounce');
 
 /**
  * @type {Vue$2}
