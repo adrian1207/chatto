@@ -46,7 +46,7 @@
         </nav>
 
         {{-- Sidebar --}}
-        <div class="collapse navbar-collapse side-nav" id="profile-navbar-collapse">
+        <div class="collapse navbar-collapse side-nav" style="overflow-y: auto !important" id="profile-navbar-collapse">
             @include('partials.sidebar')
         </div>
 

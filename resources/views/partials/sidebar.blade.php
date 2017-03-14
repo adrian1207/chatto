@@ -2,9 +2,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="white">Witaj, <strong>{{ \Auth::user()->nick }}</strong></h3>
+                <h3 class="white">Twój profil</h3>
                 <hr />
-                <form class="form-horizontal" role="form" v-on:submit.prevent='update($event)' enctype="multipart/form-data">
+                <form id="profile-form" class="form-horizontal" role="form" v-on:submit.prevent='update()' enctype="multipart/form-data">
                     {{ csrf_field() }}
 
                     <div class="top-buffer">
@@ -77,15 +77,16 @@
                             name="about" v-on:keyup="change()"
                             data-msg-maxlength="Opis nie może być dłuższy niż 200 znaków."
                             data-rule-maxlength="200"
+                            maxlength="200"
                             class="form-control profile-description" rows="5" placeholder="Opisz się w kilku słowach...">{!! \Auth::user()->about !!}</textarea>
                     </div>
 
                     <div class="top-buffer">
-                        <button type="submit" class="btn btn-success pull-right" v-if="changed"><i class="fa fa-pencil fa-fw"></i> Zapisz zmiany</button>
+                        {{--<button type="submit" class="btn btn-success pull-right" v-if="changed"><i class="fa fa-pencil fa-fw"></i> Zapisz zmiany</button>--}}
 
-                        <div class="alert alert-success"  v-if="updated">
-                            <strong>Ustawiono!</strong> Twoje dane zostały zaktualizowane.
-                        </div>
+                        {{--<div class="alert alert-success"  v-if="updated">--}}
+                            {{--<strong>Ustawiono!</strong> Twoje dane zostały zaktualizowane.--}}
+                        {{--</div>--}}
                     </div>
                 </form>
             </div>
@@ -117,5 +118,6 @@
                 <button type="submit" class="btn btn-default btn-block"><i class="fa fa-sign-out fa-fw"></i></button>
             </form>
         </div>
+        <div class="top-buffer"></div>
     </div>
 </div>

@@ -359,16 +359,15 @@ var profileApp = new Vue({
         /**
          * Aktualizacja profilu użytkownika
          */
-        update: function(event)
+        update: function()
         {
             var $vue = this;
 
             Echo.leave('presence');
 
-            if (!$(event.target).valid())
-                return;
+            var data = new FormData(document.querySelector("#profile-form"));
 
-            this.$http.post('/chat/update', new FormData(event.target))
+            this.$http.post('/chat/update', data)
                 .then((response) => {
                     $vue.changed = !response.ok;
                     $vue.updated = response.ok;
@@ -381,11 +380,12 @@ var profileApp = new Vue({
         /**
          * Zdarzenie zmiany wartości w formularzu
          */
-        change: function()
+        change: _.debounce(function()
         {
             this.changed = true;
             this.updated = false;
-        },
+            this.update();
+        }, 1000),
 
         /**
          * Rezerwacja nicku użytkownika

@@ -5948,9 +5948,8 @@ body {
   position: fixed;
   left: 0;
   bottom: 0;
+  padding-bottom: 20px;
   width: 281px;
-  overflow-y: scroll;
-  overflow-x: hidden;
   background-color: #222222; }
 
 @media (max-width: 992px) {
