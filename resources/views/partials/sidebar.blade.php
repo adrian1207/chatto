@@ -81,13 +81,7 @@
                             class="form-control profile-description" rows="5" placeholder="Opisz się w kilku słowach...">{!! \Auth::user()->about !!}</textarea>
                     </div>
 
-                    <div class="top-buffer">
-                        {{--<button type="submit" class="btn btn-success pull-right" v-if="changed"><i class="fa fa-pencil fa-fw"></i> Zapisz zmiany</button>--}}
-
-                        {{--<div class="alert alert-success"  v-if="updated">--}}
-                            {{--<strong>Ustawiono!</strong> Twoje dane zostały zaktualizowane.--}}
-                        {{--</div>--}}
-                    </div>
+                    <div class="top-buffer"></div>
                 </form>
             </div>
         </div>
