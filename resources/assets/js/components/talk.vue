@@ -62,10 +62,20 @@
             {
                 this.closable = true;
 
+                // Miganie tytułu po odebraniu wiadomości
+                if (_.last(msgs).type == 'received')
+                {
+                    var verb = (this.members.guest.gender) ? 'napisała' : 'napisał';
+
+                    newMessageTitleAlert(this.members.guest.nick+' '+verb+'!');
+                }
+
+                // Zescrollowanie okna rozmowy do samego dołu
                 $('#'+this.channel+' .messagebox').stop().animate({
                   scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
                 }, 800);
 
+                // Migranie zminimalizowanego okna na belce
                 if (this.minimized)
                 {
                     var $vue = this;

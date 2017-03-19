@@ -44,16 +44,40 @@ var chatApp = new Vue({
          */
         echoGlobal: function()
         {
+            var $vue = this;
+            var leavingUserId;
+            var leavingUserTimeout;
+
             Echo.join('presence')
                 .here((users) => {
                     this.users = users;
                 })
                 .joining((user) => {
-                    this.users.push(user);
+                    // Jeżeli ten użytkownik wyszedł mniej niż 5 sekund wcześniej to aktualizujemy
+                    if (user.id === leavingUserId)
+                    {
+                        clearTimeout(leavingUserTimeout);
+
+                        var index = getUserIndex(this.users, user.id);
+                        this.$set(this.users, index, user);
+                    }
+                    else
+                    {
+                        this.users.push(user);
+                    }
                 })
                 .leaving((user) => {
+
                     var index = getUserIndex(this.users, user.id);
-                    this.users.splice(index, 1);
+
+                    // Opóźniamy wyjście (powrót po mniej niż 5 sekundach nie powoduje skakania isotope)
+                    leavingUserId = user.id;
+                    leavingUserTimeout = setTimeout(function()
+                    {
+                        $vue.users.splice(index, 1);
+                        leavingUserId = null;
+                    }, 5000);
+
                 })
                 .listen('InvitationEvent', (participants) => {
                     this.privateConnect(participants.sender, participants.recipient);
@@ -96,7 +120,10 @@ var chatApp = new Vue({
                 })
                 .listen('MessageEvent', (message) => {
                     if (!this.talks[channel])
+                    {
                         this.privateOpen(sender, recipient);
+                        newMessageTitleAlert('Nowa rozmowa!');
+                    }
 
                     this.talks[channel].messages.push({content: message.message, type: 'received'});
                 });
@@ -362,9 +389,6 @@ var profileApp = new Vue({
         update: function()
         {
             var $vue = this;
-
-            Echo.leave('presence');
-
             var data = new FormData(document.querySelector("#profile-form"));
 
             this.$http.post('/chat/update', data)
@@ -373,6 +397,8 @@ var profileApp = new Vue({
                     $vue.updated = response.ok;
 
                     savingBlink($(".side-nav"));
+
+                    Echo.leave('presence');
                     chatApp.echoGlobal();
             });
         },
@@ -718,4 +744,30 @@ Date.prototype.getFullMinutes = function ()
         return '0' + this.getMinutes();
 
     return this.getMinutes();
+};
+
+/**
+ * Miganie tytułu na wiadomość
+ */
+var timeoutId = false;
+
+newMessageTitleAlert = function (msg) {
+    var oldTitle = document.title;
+
+    var blink = function()
+    {
+        document.title = document.title == msg ? oldTitle : msg;
+
+        if(document.hasFocus())
+        {
+            document.title = oldTitle;
+            clearInterval(timeoutId);
+            timeoutId = false;
+        }
+    };
+
+    if (!timeoutId)
+    {
+        timeoutId = setInterval(blink, 1000);
+    }
 };
