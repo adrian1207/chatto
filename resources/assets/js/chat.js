@@ -391,6 +391,8 @@ var profileApp = new Vue({
             var $vue = this;
             var data = new FormData(document.querySelector("#profile-form"));
 
+            Echo.leave('presence');
+            
             this.$http.post('/chat/update', data)
                 .then((response) => {
                     $vue.changed = !response.ok;
@@ -398,7 +400,6 @@ var profileApp = new Vue({
 
                     savingBlink($(".side-nav"));
 
-                    Echo.leave('presence');
                     chatApp.echoGlobal();
             });
         },
