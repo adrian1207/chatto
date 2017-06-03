@@ -33,19 +33,22 @@
 </template>
 
 <script>
-    var blinkIntervalId = {};
-
     export default {
         props: ['channel', 'messages', 'members', 'connected'],
         data: function() {
             return {
                 message: '',
                 title: this.members.guest.nick,
-                minimized: false,
-                closable: false
+                closable: false,
+                hourIntervals: {},
+                blinkIntervals: {}
             }
         },
         methods: {
+
+            /**
+             * Wysłanie wiadomości
+             */
             send: function()
             {
                 if (this.message == '')
@@ -55,51 +58,149 @@
                 this.$http.post('/chat/message', {channel: this.channel, message: message});
                 this.$parent.talks[this.channel].messages.push({content: message, type: 'sent'});
                 this.message = '';
+            },
+
+            /**
+             * Kliknięcie na oknie rozmowy
+             *
+             * @param jqueryTalk
+             */
+            activate: function(jqueryTalk)
+            {
+                clearInterval(this.blinkIntervals[this.channel]);
+
+                jqueryTalk.find('input').focus();
+            },
+
+            /**
+             * Załadowanie okna - przetłumaczenie labeli przycisków rozmowy
+             */
+            load: function()
+            {
+                $('.ui-dialog-titlebar-minimize span').text('');
+                $('.ui-dialog-titlebar-maximize span').text('');
+                $('.ui-dialog-titlebar-restore span').text('');
+                $('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
+                $('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
+                $('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
+                $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
+            },
+
+            /**
+             * Event przywrócenia okna
+             */
+            restore: function()
+            {
+                this.scroll();
+            },
+
+            /**
+             * Event przed zamknięciem okna
+             */
+            beforeClose: function()
+            {
+                if (!this.closable)
+                    return false;
+            },
+
+            /**
+             * Event zamknięcia okna
+             */
+            close: function()
+            {
+                clearInterval(this.hourIntervals[this.channel]);
+                this.$parent.privateExit(this.channel, this.members.guest.id);
+            },
+
+            /**
+             * Zescrollowanie okna rozmowy do samego dołu
+             */
+            scroll: function()
+            {
+                $('#'+this.channel+' .messagebox').animate(
+                {
+                    scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
+                }, 800);
+            },
+
+            /**
+             * Miganie tytułu po odebraniu wiadomości
+             */
+            blinkTitle: function()
+            {
+                var verb = (this.members.guest.gender) ? 'napisała' : 'napisał';
+
+                newMessageTitleAlert(this.members.guest.nick+' '+verb+'!');
+            },
+
+            /**
+             * Miganie zminimalizowanego okna na belce
+             *
+             * @param msgs
+             */
+            blinkTalkBar: function()
+            {
+                var $vue = this;
+
+                if (!$('.ui-dialog[aria-describedby="'+this.channel+'"] input').is(':focus'))
+                {
+                    this.blinkEffect();
+                    this.blinkIntervals[this.channel] = setInterval(function() { $vue.blinkEffect() }, 3000);
+                }
+            },
+
+            /**
+             * Godzina wyświetlana co 5min w oknie rozmowy
+             */
+            hourDisplay: function()
+            {
+                var date = new Date();
+                var dateFormatted =  "Godzina: "+date.getHours()+":"+date.getFullMinutes();
+
+                if (typeof this.$parent.talks[this.channel] !== "undefined")
+                {
+                    this.$parent.talks[this.channel].messages.push({content: dateFormatted, type: 'info'});
+                }
+            },
+
+            /**
+             * Efekt migania paska rozmowy
+             */
+            blinkEffect: function()
+            {
+                $('.ui-dialog[aria-describedby="'+this.channel+'"] .ui-dialog-titlebar').effect("highlight", {}, 3000);
             }
         },
-        watch: {
+        watch:
+        {
+            /**
+             * Obserwacja listy wiadomości
+             */
             messages: function (msgs)
             {
                 this.closable = true;
+                this.scroll();
 
-                // Miganie tytułu po odebraniu wiadomości
                 if (_.last(msgs).type == 'received')
                 {
-                    var verb = (this.members.guest.gender) ? 'napisała' : 'napisał';
-
-                    newMessageTitleAlert(this.members.guest.nick+' '+verb+'!');
-                }
-
-                // Zescrollowanie okna rozmowy do samego dołu
-                $('#'+this.channel+' .messagebox').stop().animate({
-                  scrollTop: $('#'+this.channel+' .messagebox')[0].scrollHeight
-                }, 800);
-
-                // Migranie zminimalizowanego okna na belce
-                if (this.minimized)
-                {
-                    var $vue = this;
-
-                    $('#dialog-extend-fixed-container .ui-dialog[aria-describedby="'+$vue.channel+'"] .ui-dialog-titlebar').effect("highlight", {}, 3000);
-                    blinkIntervalId[$vue.channel] = setInterval(function() {
-                        $('#dialog-extend-fixed-container .ui-dialog[aria-describedby="'+$vue.channel+'"] .ui-dialog-titlebar').effect("highlight", {}, 3000);
-                    }, 3200);
+                    this.blinkTitle();
+                    this.blinkTalkBar();
                 }
             }
         },
         mounted: function()
         {
             var $vue = this;
-
+            var mobile = false;
             var width = 500;
             var height = 500;
-            var mobile = false;
 
+            // Pełny ekran na mobilnych
             if (window.innerWidth < 768)
             {
+                mobile = true;
                 width = window.innerWidth;
                 height = window.innerHeight;
-                mobile = true;
             }
 
             $('#'+$vue.channel)
@@ -108,16 +209,14 @@
                     "width": width,
                     "resizable": !mobile,
                     "draggable": !mobile,
-                    "beforeClose": function(event, ui)
-                    {
-                        if (!$vue.closable)
-                            return false;
+                    "open": function() {
+                        var dialogs = $('.ui-dialog').length - 1;
+                        $(this).parent().css('z-index', 1030);
+                        $(this).parent().css('left', $(this).offset().left + (dialogs * 40)+'px');
+                        $(this).parent().css('top', $(this).offset().top + (dialogs * 40)+'px');
                     },
-                    "close": function(event, ui)
-                    {
-                        clearInterval(hourIntervalId);
-                        $vue.$parent.privateExit($vue.channel, $vue.members.guest.id);
-                    }
+                    "beforeClose": function() { return $vue.beforeClose() },
+                    "close": function() { $vue.close() }
                 })
                 .dialogExtend({
                     "closable": true,
@@ -133,36 +232,24 @@
                       "minimize": "fa fa-window-minimize fa-fw",
                       "restore": "fa fa-window-restore fa-fw"
                     },
-                    "beforeMinimize":  function (event) {
-                        $vue.minimized = true;
-                    },
-                    "beforeRestore":  function (event) {
-                        $vue.minimized = false;
-                        clearInterval(blinkIntervalId[$vue.channel]);
-                    },
-                    "load": function(event, ui)
-                    {
-                        $('.ui-dialog-titlebar-minimize span').text('');
-                        $('.ui-dialog-titlebar-maximize span').text('');
-                        $('.ui-dialog-titlebar-restore span').text('');
-                        $('.ui-dialog-titlebar-minimize').attr('title', 'Minimalizuj');
-                        $('.ui-dialog-titlebar-maximize').attr('title', 'Maksymalizuj');
-                        $('.ui-dialog-titlebar-restore span').attr('title', 'Przywróć');
-                        $('.ui-dialog-titlebar-close').attr('title', 'Zamknij');
-                    },
-              }).prev(".ui-dialog-titlebar").css("background-color","#2780e3");
+                    "restore": function() { $vue.restore() },
+                    "load": function() { $vue.load() },
+                }).prev(".ui-dialog-titlebar").css("background-color","#2780e3");
 
-              // Godzina wyświetlana co 5min w oknie rozmowy
-              var hourIntervalId = setInterval(function()
-              {
-                var date = new Date();
-                var dateFormatted =  "Godzina: "+date.getHours()+":"+date.getFullMinutes();
 
-                if (typeof $vue.$parent.talks[$vue.channel] !== "undefined" && !$vue.minimized)
-                {
-                    $vue.$parent.talks[$vue.channel].messages.push({content: dateFormatted, type: 'info'})
-                }
-              }, 300000);
+            // Godzina wyświetlana co 5min w oknie rozmowy
+            this.hourIntervals[this.channel] = setInterval(function() { $vue.hourDisplay() }, 300000);
+
+            // Aktywacja okna po kliknięciu
+            $('.ui-dialog[aria-describedby="'+this.channel+'"]').not('.ui-dialog-titlebar-buttonpane').click(function(){ $vue.activate($(this)) });
+
+            // Pierwsza wiadomość - powiadomienie osoby zaproszonej
+            if (this.messages[0] && this.messages[0].type == 'received')
+            {
+                this.closable = true;
+                this.blinkTitle();
+                this.blinkTalkBar();
+            }
         }
     }
 </script>

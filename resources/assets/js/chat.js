@@ -122,7 +122,6 @@ var chatApp = new Vue({
                     if (!this.talks[channel])
                     {
                         this.privateOpen(sender, recipient);
-                        newMessageTitleAlert('Nowa rozmowa!');
                     }
 
                     this.talks[channel].messages.push({content: message.message, type: 'received'});
@@ -747,23 +746,36 @@ Date.prototype.getFullMinutes = function ()
     return this.getMinutes();
 };
 
+// Zmienne tytułów
+var timeoutId = false;
+var normalTitle = document.title;
+var titles = [document.title];
+
 /**
  * Miganie tytułu na wiadomość
  */
-var timeoutId = false;
+newMessageTitleAlert = function (msg)
+{
+    titles.push(msg);
 
-newMessageTitleAlert = function (msg) {
-    var oldTitle = document.title;
-
+    var i = 0;
     var blink = function()
     {
-        document.title = document.title == msg ? oldTitle : msg;
+        document.title = titles[i];
 
         if(document.hasFocus())
         {
-            document.title = oldTitle;
+            document.title = normalTitle;
+            titles = [document.title];
+
             clearInterval(timeoutId);
             timeoutId = false;
+        }
+
+        i = i + 1;
+        if (titles.length <= i)
+        {
+            i = 0;
         }
     };
 

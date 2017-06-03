@@ -6031,9 +6031,6 @@ body {
   .login .vertical .pass-field.show-pass.has-error {
     height: 111px; } }
 
-.ui-dialog {
-  z-index: 1030 !important; }
-
 .ui-slider-range {
   background: #2780E3 !important; }
 
