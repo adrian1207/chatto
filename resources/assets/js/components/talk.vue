@@ -68,6 +68,7 @@
             activate: function(jqueryTalk)
             {
                 clearInterval(this.blinkIntervals[this.channel]);
+                this.blinkIntervals[this.channel] = false;
 
                 jqueryTalk.find('input').focus();
             },
@@ -142,7 +143,7 @@
             {
                 var $vue = this;
 
-                if (!$('.ui-dialog[aria-describedby="'+this.channel+'"] input').is(':focus'))
+                if (!$('.ui-dialog[aria-describedby="'+this.channel+'"] input').is(':focus') && !this.blinkIntervals[this.channel])
                 {
                     this.blinkEffect();
                     this.blinkIntervals[this.channel] = setInterval(function() { $vue.blinkEffect() }, 3000);

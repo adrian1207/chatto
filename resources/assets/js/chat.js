@@ -756,7 +756,10 @@ var titles = [document.title];
  */
 newMessageTitleAlert = function (msg)
 {
-    titles.push(msg);
+    if (_.indexOf(titles, msg) == -1)
+    {
+        titles.push(msg);
+    }
 
     var i = 0;
     var blink = function()
