@@ -30,6 +30,9 @@ server {
     #access_log off;
     access_log /home/www/storage/logs/nginx.log;
     error_log  /home/www/storage/logs/nginx-error.log error;
+		
+	# set client body size to 5M #
+	client_max_body_size 5M;
 
     location ~ \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;

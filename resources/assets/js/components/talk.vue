@@ -197,7 +197,7 @@
             var height = 500;
 
             // Pełny ekran na mobilnych
-            if (window.innerWidth < 768)
+            if (window.innerWidth < 993)
             {
                 mobile = true;
                 width = window.innerWidth;
@@ -211,10 +211,15 @@
                     "resizable": !mobile,
                     "draggable": !mobile,
                     "open": function() {
-                        var dialogs = $('.ui-dialog').length - 1;
+
                         $(this).parent().css('z-index', 1030);
-                        $(this).parent().css('left', $(this).offset().left + (dialogs * 40)+'px');
-                        $(this).parent().css('top', $(this).offset().top + (dialogs * 40)+'px');
+
+                        if (!mobile)
+                        {
+                            var dialogs = $('.ui-dialog:visible').length - 1;
+                            $(this).parent().css('left', $(this).offset().left + (dialogs * 40)+'px');
+                            $(this).parent().css('top', $(this).offset().top + (dialogs * 40)+'px');
+                        }
                     },
                     "beforeClose": function() { return $vue.beforeClose() },
                     "close": function() { $vue.close() }
