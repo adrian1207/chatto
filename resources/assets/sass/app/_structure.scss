@@ -21,7 +21,7 @@ body {
   background-color: $gray-darker;
 }
 
-@media(max-width:$screen-md) {
+@media(max-width:($screen-md + 1)) {
   #wrapper {
     padding-left: 0px;
   }
@@ -31,5 +31,15 @@ body {
   }
   .navbar-brand {
     width: 240px !important;
+  }
+  .filters > div, .filters > div input,.filters > div button, .filters > span, .btn-sm, .btn-group-sm > .btn {
+    width: 100% !important;
+    float: none !important;
+  }
+  .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+    text-align: center !important;
+  }
+  .age-range {
+    width: 70% !important;
   }
 }

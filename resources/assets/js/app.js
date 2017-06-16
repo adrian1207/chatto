@@ -1,11 +1,15 @@
 require('./bootstrap');
 
-$(document).ready(function() {
-    setTimeout(structure, 800);
+$(document).ready(function(){
+    $('#filters select').last().on('loaded.bs.select', function () {
+        structure();
+    });
 });
 
 $(window).resize(function() {
-    structure();
+    if ($('#filter-navbar-collapse').attr('aria-expanded') === "false") {
+        structure();
+    }
 });
 
 function structure()
