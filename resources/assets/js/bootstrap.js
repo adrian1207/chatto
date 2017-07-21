@@ -25,6 +25,13 @@ Vue.http.interceptors.push((request, next) => {
     next();
 });
 
+/**
+ * Vue Production Mode
+ */
+Vue.config.devtools = false;
+Vue.config.debug = false;
+Vue.config.silent = true;
+
 
 /**
  * Echo

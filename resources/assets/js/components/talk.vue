@@ -195,6 +195,7 @@
             var mobile = false;
             var width = 500;
             var height = 500;
+            var position = {my: "center", at: "center", of: window};
 
             // Pełny ekran na mobilnych
             if (window.innerWidth < 993)
@@ -202,16 +203,18 @@
                 mobile = true;
                 width = window.innerWidth;
                 height = window.innerHeight;
+                position = [0, 0];
             }
 
             $('#'+$vue.channel)
                 .dialog({
+                    "position": position,
                     "height": height,
                     "width": width,
                     "resizable": !mobile,
                     "draggable": !mobile,
-                    "open": function() {
-
+                    "open": function()
+                    {
                         $(this).parent().css('z-index', 1030);
 
                         if (!mobile)
@@ -219,6 +222,20 @@
                             var dialogs = $('.ui-dialog:visible').length - 1;
                             $(this).parent().css('left', $(this).offset().left + (dialogs * 40)+'px');
                             $(this).parent().css('top', $(this).offset().top + (dialogs * 40)+'px');
+                        }
+                        else
+                        {
+                            var dialog = $(this);
+
+                            $(window).resize(function()
+                            {
+                                dialog.dialog("option", "height", document.documentElement.clientHeight);
+                                dialog.dialog("option", "width", document.documentElement.clientWidth);
+
+                                setTimeout(function(){
+                                    window.scrollTo(0, 0);
+                                }, 300);
+                            });
                         }
                     },
                     "beforeClose": function() { return $vue.beforeClose() },
