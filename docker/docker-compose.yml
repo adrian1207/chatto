@@ -58,4 +58,4 @@ services:
     volumes:
       - ../:/home/www/
       - ./certs/:/etc/node/ssl/
-    command: bash -c "npm install -g laravel-echo-server && cd /home/www && laravel-echo-server start"
+    command: bash -c "npm install --unsafe-perm -g laravel-echo-server && cd /home/www && laravel-echo-server start"
