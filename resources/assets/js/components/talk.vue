@@ -201,8 +201,14 @@
             if (window.innerWidth < 993)
             {
                 mobile = true;
-                width = window.innerWidth;
-                height = window.innerHeight;
+                width = document.documentElement.clientWidth;
+                height = document.documentElement.clientHeight;
+
+                if (typeof $('#dialog-extend-fixed-container').height() !== 'undefined')
+                {
+                    height = height - $('#dialog-extend-fixed-container').height();
+                }
+
                 position = [0, 0];
             }
 
@@ -231,6 +237,11 @@
                             {
                                 dialog.dialog("option", "height", document.documentElement.clientHeight);
                                 dialog.dialog("option", "width", document.documentElement.clientWidth);
+
+                                if (typeof $('#dialog-extend-fixed-container').height() !== 'undefined')
+                                {
+                                    dialog.dialog("option", "height", document.documentElement.clientHeight - $('#dialog-extend-fixed-container').height());
+                                }
 
                                 setTimeout(function(){
                                     window.scrollTo(0, 0);

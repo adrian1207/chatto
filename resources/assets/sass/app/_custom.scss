@@ -161,6 +161,11 @@
   text-decoration: none;
 }
 
+#dialog-extend-fixed-container {
+  background-color: #fff;
+  border-top: solid 1px #ccc;
+}
+
 /* Allow Font Awesome Icons in lieu of jQuery UI and only apply when using a FA icon */
 .ui-icon {
   background: none repeat scroll 0 0 transparent !important;
